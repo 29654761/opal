@@ -1,0 +1,712 @@
+<?xml version='1.0'?>
+
+<?include $(var.ProjectDir)\config.wxs ?>
+
+<?if $(var.Architecture) = "x86" ?>
+    <?define IsWin64 = "no" ?>
+    <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+    <?define PTLibName = "PTLib" ?>
+    <?define OPALName  = "OPAL" ?>
+    <?ifndef SSLVer ?>
+        <?define SSLVer = "1_1" ?>
+    <?endif?>
+    <?ifndef SSLDir ?>
+        <?ifdef env.OPENSSL32DIR ?>
+            <?define SSLDir = "$(env.OPENSSL32DIR)" ?>
+        <?else ?>
+            <?define SSLDir = "" ?>
+        <?endif?>
+    <?endif?>
+    <?ifndef LuaDir ?>
+        <?ifdef env.LUA32DIR ?>
+            <?define LuaDir = "$(env.LUA32DIR)" ?>
+        <?else ?>
+            <?define LuaDir = "" ?>
+        <?endif?>
+    <?endif?>
+    <?ifndef V8SubDir ?>
+        <?define V8SubDir = "\v8\out.gn\ia32.release" ?>
+    <?endif?>
+    <?ifndef FFMPEGDir ?>
+        <?ifdef env.FFMPEG32DIR ?>
+            <?define FFMPEGDir = "$(env.FFMPEG32DIR)" ?>
+        <?else ?>
+            <?define FFMPEGDir = "" ?>
+        <?endif?>
+    <?endif?>
+    <?ifndef JPEGDir ?>
+        <?ifdef env.JPEG32DIR ?>
+            <?define JPEGDir = "$(env.JPEG32DIR)" ?>
+        <?else ?>
+            <?define JPEGDir = "" ?>
+        <?endif?>
+    <?endif?>
+    <?ifndef SpanDspSubDir ?>
+        <?define SpanDspSubDir = "\src\Release" ?>
+    <?endif?>
+<?else?>
+    <?define IsWin64 = "yes" ?>
+    <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+    <?define PTLibName = "PTLib64" ?>
+    <?define OPALName  = "OPAL64" ?>
+    <?ifndef SSLVer ?>
+        <?define SSLVer = "1_1-x64" ?>
+    <?endif?>
+    <?ifndef SSLDir ?>
+        <?ifdef env.OPENSSL64DIR ?>
+            <?define SSLDir = "$(env.OPENSSL64DIR)" ?>
+        <?else ?>
+            <?define SSLDir = "" ?>
+        <?endif?>
+    <?endif?>
+    <?ifndef LuaDir ?>
+        <?ifdef env.LUA64DIR ?>
+            <?define LuaDir = "$(env.LUA64DIR)" ?>
+        <?else ?>
+            <?define LuaDir = "" ?>
+        <?endif?>
+    <?endif?>
+    <?ifndef V8SubDir ?>
+        <?define V8SubDir = "\v8\out.gn\x64.release" ?>
+    <?endif?>
+    <?ifndef FFMPEGDir ?>
+        <?ifdef env.FFMPEG64DIR ?>
+            <?define FFMPEGDir = "$(env.FFMPEG64DIR)" ?>
+        <?else ?>
+            <?define FFMPEGDir = "" ?>
+        <?endif?>
+    <?endif?>
+    <?ifndef JPEGDir ?>
+        <?ifdef env.JPEG64DIR ?>
+            <?define JPEGDir = "$(env.JPEG64DIR)" ?>
+        <?else ?>
+            <?define JPEGDir = "" ?>
+        <?endif?>
+    <?endif?>
+    <?ifndef SpanDspSubDir ?>
+        <?define SpanDspSubDir = "\src\x64\Release" ?>
+    <?endif?>
+<?endif?>
+
+<?ifndef SSLSubDir ?>
+    <?define SSLSubDir = "\bin" ?>
+<?endif?>
+
+<?ifndef V8Dir ?>
+    <?ifdef env.V8_DIR ?>
+        <?define V8Dir = "$(env.V8_DIR)" ?>
+    <?else ?>
+        <?define V8Dir = "" ?>
+    <?endif?>
+<?endif?>
+
+<?ifndef FFMPEGSubDir ?>
+    <?define FFMPEGSubDir = "\bin" ?>
+<?endif?>
+<?ifndef AVFORMATVer ?>
+    <?define AVFORMATVer = "58" ?>
+<?endif?>
+<?ifndef AVCODECVer ?>
+    <?define AVCODECVer = "58" ?>
+<?endif?>
+<?ifndef AVUTILVer ?>
+    <?define AVUTILVer = "56" ?>
+<?endif?>
+<?ifndef SWRESAMPLEVer ?>
+    <?define SWRESAMPLEVer = "3" ?>
+<?endif?>
+<?ifndef SWSCALEVer ?>
+    <?define SWSCALEVer = "5" ?>
+<?endif?>
+
+<?ifndef SpanDspDir ?>
+    <?ifdef env.SPANDSPDIR ?>
+        <?define SpanDspDir = "$(env.SPANDSPDIR)" ?>
+    <?else ?>
+        <?define SpanDspDir = "" ?>
+    <?endif?>
+<?endif?>
+
+<?ifndef WxDir ?>
+    <?ifdef env.WXDIR ?>
+        <?define WxDir = "$(env.WXDIR)" ?>
+    <?else ?>
+        <?define WxDir = "" ?>
+    <?endif?>
+<?endif?>
+<?if $(var.WxDir) != "" ?>
+    <?ifndef WxVer ?>
+        <?define WxVer = "314" ?>
+    <?endif?>
+    <?ifndef WxCustom ?>
+        <?define WxCustom = "no" ?>
+    <?endif?>
+    <?if $(var.WxCustom) = "yes" ?>
+        <?if $(var.Architecture) = "x86" ?>
+            <?define WxPlatform  = "_custom" ?>
+            <?define WxDllDir = "$(var.WxDir)\lib\vc_dll" ?>
+        <?else?>
+            <?define WxPlatform  = "_$(var.Architecture)_custom" ?>
+            <?define WxDllDir = "$(var.WxDir)\lib\vc_$(var.Architecture)_dll" ?>
+        <?endif?>
+    <?else?>
+        <?if $(var.Architecture) = "x86" ?>
+            <?define WxPlatform  = "14x" ?>
+        <?else?>
+            <?define WxPlatform  = "14x_$(var.Architecture)" ?>
+        <?endif?>
+        <?define WxDllDir = "$(var.WxDir)\lib\vc$(var.WxPlatform)_dll" ?>
+    <?endif?>
+<?endif?>
+
+
+<?ifndef PTLibDir ?>
+    <?define PTLibDir = "$(var.ProjectDir)..\..\..\ptlib" ?>
+<?endif?>
+<?ifndef OPALDir ?>
+    <?define OPALDir = "$(var.ProjectDir)..\.." ?>
+<?endif?>
+<?ifndef PluginReleaseDir ?>
+    <?define PluginReleaseDir = "$(var.OPALDir)\bin\plugins\$(var.Platform)\Release" ?>
+<?endif?>
+
+
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+
+    <Product Name='$(var.ProductName)'
+             Language='1033'
+             Version='$(var.ProductVersion)'
+             Manufacturer='$(var.ProductManufacturer)'
+             Id='*'
+             UpgradeCode='$(var.ProductGUID)'>
+        <Package Description='$(var.ProductName)'
+                 Comments='$(var.Platform) $(var.ProductDescription), Version $(var.ProductVersion)'
+                 Manufacturer='$(var.ProductManufacturer)'
+                 Platform='$(var.Architecture)'
+                 InstallScope="perMachine"
+                 InstallerVersion='405'
+                 Compressed='yes' />
+
+        <MajorUpgrade AllowSameVersionUpgrades='yes'
+                      DowngradeErrorMessage='A newer version of $(var.ProductName) is already installed.' />
+
+        <Media Id='1'
+               Cabinet='$(var.ProductBaseFilename).cab'
+               EmbedCab='yes'
+               DiskPrompt='CD-ROM #1' />
+
+        <Property Id='DiskPrompt'
+                  Value="$(var.ProductName) $(var.ProductVersion) Installation [1]" />
+        <Property Id="INSTALLDIR">
+            <RegistrySearch Id="RegistrySearch"
+                            Type="raw"
+                            Root="HKLM"
+                            Win64="$(var.IsWin64)"
+                            Key="Software\$(var.ProductManufacturer)\$(var.ProductName)"
+                            Name="InstallDir" />
+        </Property>
+        <Property Id="WIXUI_INSTALLDIR"
+                  Value="INSTALLDIR" />
+
+        <WixVariable Id="WixUILicenseRtf" Value="$(var.OPALDir)\src\win32\InstallerLicense.rtf" />
+        <UIRef Id="WixUI_InstallDir" />
+        <UIRef Id="WixUI_ErrorProgressText" />
+
+        <Directory Id='TARGETDIR'
+                   DiskId='1'
+                   Name='SourceDir'>
+            <Directory Id='$(var.PlatformProgramFilesFolder)'>
+                <Directory Id='VoxLucida'
+                           Name='Vox Lucida'>
+                    <Directory Id='INSTALLDIR'
+                               Name='$(var.ProductName)'>
+                        <Component Id='MainExecutable'
+                                   Win64="$(var.IsWin64)"
+                                   Guid='*'>
+                            <File Id='$(var.ProductBaseFilename).exe'
+                                  Source='$(var.OPALDir)\bin\$(var.ProductName)\$(var.Platform)\Release\$(var.ProductBaseFilename).exe'
+                                  KeyPath='yes'>
+                            </File>
+                        </Component>
+                        <Component Id='MainExecutableSymbols'
+                                   Win64="$(var.IsWin64)"
+                                   Guid='*'>
+                            <File Id='$(var.ProductBaseFilename).pdb'
+                                  Source='$(var.OPALDir)\bin\$(var.ProductName)\$(var.Platform)\Release\$(var.ProductBaseFilename).pdb'
+                                  KeyPath='yes'>
+                            </File>
+                        </Component>
+                        <Component Id='G.722.2'
+                                   Win64="$(var.IsWin64)"
+                                   Guid='*'>
+                            <File Id='G_722_2_DLL'
+                                  Name='g7222_ptplugin.dll'
+                                  Source='$(var.PluginReleaseDir)\g7222_ptplugin.dll'
+                                  KeyPath='yes' />
+                        </Component>
+                        <Component Id='GSM_AMR'
+                                   Win64="$(var.IsWin64)"
+                                   Guid='*'>
+                            <File Id='GSM_AMR_DLL'
+                                  Name='gsmamr_ptplugin.dll'
+                                  Source='$(var.PluginReleaseDir)\gsmamr_ptplugin.dll'
+                                  KeyPath='yes' />
+                        </Component>
+                        <Component Id='H.264'
+                                   Win64="$(var.IsWin64)"
+                                   Guid='*'>
+                            <File Id='H264'
+                                  Name='openH264_ptplugin.dll'
+                                  Source='$(var.PluginReleaseDir)\openH264_ptplugin.dll'
+                                  KeyPath='yes' />
+                        </Component>
+                        <Component Id='openH264'
+                                  Win64="$(var.IsWin64)"
+                                  Guid='*'>
+                            <File Id='openH264_DLL'
+                                  Name='openh264_$(var.Architecture).dll'
+                                  Source='$(var.PluginReleaseDir)\openh264_$(var.Architecture).dll'
+                                  KeyPath='yes' />
+                        </Component>
+                        <Component Id='G.722'
+                                   Win64="$(var.IsWin64)"
+                                   Guid='*'>
+                            <File Id='G_722_DLL'
+                                  Name='g722_ptplugin.dll'
+                                  Source='$(var.PluginReleaseDir)\g722_ptplugin.dll'
+                                  KeyPath='yes' />
+                        </Component>
+                        <Component Id='G.722.1'
+                                   Win64="$(var.IsWin64)"
+                                   Guid='*'>
+                            <File Id='G_722_1_DLL'
+                                  Name='g7221_ptplugin.dll'
+                                  Source='$(var.PluginReleaseDir)\g7221_ptplugin.dll'
+                                  KeyPath='yes' />
+                        </Component>
+                        <Component Id='G.726'
+                                   Win64="$(var.IsWin64)"
+                                   Guid='*'>
+                            <File Id='G_726_DLL'
+                                  Name='g726_ptplugin.dll'
+                                  Source='$(var.PluginReleaseDir)\g726_ptplugin.dll'
+                                  KeyPath='yes' />
+                        </Component>
+                        <Component Id='GSM0610'
+                                   Win64="$(var.IsWin64)"
+                                   Guid='*'>
+                            <File Id='GSM0610_DLL'
+                                  Name='gsm0610_ptplugin.dll'
+                                  Source='$(var.PluginReleaseDir)\gsm0610_ptplugin.dll'
+                                  KeyPath='yes' />
+                        </Component>
+                        <Component Id='iLBC'
+                                   Win64="$(var.IsWin64)"
+                                   Guid='*'>
+                            <File Id='iLBC_DLL'
+                                  Name='iLBC_ptplugin.dll'
+                                  Source='$(var.PluginReleaseDir)\iLBC_ptplugin.dll'
+                                  KeyPath='yes' />
+                        </Component>
+                        <Component Id='iSAC'
+                                   Win64="$(var.IsWin64)"
+                                   Guid='*'>
+                            <File Id='iSAC_DLL'
+                                  Name='iSAC_ptplugin.dll'
+                                  Source='$(var.PluginReleaseDir)\iSAC_ptplugin.dll'
+                                  KeyPath='yes' />
+                        </Component>
+                        <Component Id='Opus'
+                                   Win64="$(var.IsWin64)"
+                                   Guid='*'>
+                            <File Id='Opus_DLL'
+                                  Name='opus_ptplugin.dll'
+                                  Source='$(var.PluginReleaseDir)\opus_ptplugin.dll'
+                                  KeyPath='yes' />
+                        </Component>
+                        <Component Id='Speex'
+                                   Win64="$(var.IsWin64)"
+                                   Guid='*'>
+                            <File Id='Speex_DLL'
+                                  Name='speex_ptplugin.dll'
+                                  Source='$(var.PluginReleaseDir)\speex_ptplugin.dll'
+                                  KeyPath='yes' />
+                        </Component>
+                        <Component Id='H.261'
+                                   Win64="$(var.IsWin64)"
+                                   Guid='*'>
+                            <File Id='H.261_DLL'
+                                  Name='h261_vic_ptplugin.dll'
+                                  Source='$(var.PluginReleaseDir)\h261_vic_ptplugin.dll'
+                                  KeyPath='yes' />
+                        </Component>
+                        <?if $(var.FFMPEGDir) != "" ?>
+                            <Component Id='H.263'
+                                      Win64="$(var.IsWin64)"
+                                      Guid='*'>
+                                <File Id='H.263_DLL'
+                                      Name='h263_ffmpeg_ptplugin.dll'
+                                      Source='$(var.PluginReleaseDir)\h263_ffmpeg_ptplugin.dll'
+                                      KeyPath='yes' />
+                            </Component>
+                            <Component Id='MPEG4'
+                                       Win64="$(var.IsWin64)"
+                                       Guid='*'>
+                                <File Id='MPEG4_DLL'
+                                      Name='mpeg4_ffmpeg_ptplugin.dll'
+                                      Source='$(var.PluginReleaseDir)\mpeg4_ffmpeg_ptplugin.dll'
+                                      KeyPath='yes' />
+                            </Component>
+                            <Component Id='AVFORMAT'
+                                       Win64="$(var.IsWin64)"
+                                       Guid='*'>
+                                <File Id='AVFORMAT_DLL'
+                                      Name='AVFORMAT-$(var.AVFORMATVer).DLL'
+                                      Source='$(var.FFMPEGDir)$(var.FFMPEGSubDir)\AVFORMAT-$(var.AVFORMATVer).DLL'
+                                      KeyPath='yes' />
+                            </Component>
+                            <Component Id='AVCODEC'
+                                      Win64="$(var.IsWin64)"
+                                      Guid='*'>
+                                <File Id='AVCODEC_DLL'
+                                      Name='AVCODEC-$(var.AVCODECVer).DLL'
+                                      Source='$(var.FFMPEGDir)$(var.FFMPEGSubDir)\AVCODEC-$(var.AVCODECVer).DLL'
+                                      KeyPath='yes' />
+                            </Component>
+                            <Component Id='AVUTIL'
+                                       Win64="$(var.IsWin64)"
+                                       Guid='*'>
+                                <File Id='AVUTIL_DLL'
+                                      Name='AVUTIL-$(var.AVUTILVer).DLL'
+                                      Source='$(var.FFMPEGDir)$(var.FFMPEGSubDir)\AVUTIL-$(var.AVUTILVer).DLL'
+                                      KeyPath='yes' />
+                            </Component>
+                            <Component Id='SWRESAMPLE'
+                                       Win64="$(var.IsWin64)"
+                                       Guid='*'>
+                                <File Id='SWRESAMPLE_DLL'
+                                      Name='SWRESAMPLE-$(var.SWRESAMPLEVer).DLL'
+                                      Source='$(var.FFMPEGDir)$(var.FFMPEGSubDir)\SWRESAMPLE-$(var.SWRESAMPLEVer).DLL'
+                                      KeyPath='yes' />
+                            </Component>
+                            <Component Id='SWSCALE'
+                                       Win64="$(var.IsWin64)"
+                                       Guid='*'>
+                                <File Id='SWSCALE_DLL'
+                                      Name='SWSCALE-$(var.SWSCALEVer).DLL'
+                                      Source='$(var.FFMPEGDir)$(var.FFMPEGSubDir)\SWSCALE-$(var.SWSCALEVer).DLL'
+                                      KeyPath='yes' />
+                            </Component>
+                        <?endif?>
+                        <Component Id='VP8'
+                                  Win64="$(var.IsWin64)"
+                                  Guid='*'>
+                            <File Id='VP8_DLL'
+                                  Name='vp8_webm_ptplugin.dll'
+                                  Source='$(var.PluginReleaseDir)\vp8_webm_ptplugin.dll'
+                                  KeyPath='yes' />
+                        </Component>
+                        <?if $(var.SpanDspDir) != "" ?>
+                            <Component Id='SpanDSPFax'
+                                      Win64="$(var.IsWin64)"
+                                      Guid='*'>
+                                <File Id='SpanDSPFax_DLL'
+                                      Name='SpanDSPFax_ptplugin.dll'
+                                      Source='$(var.PluginReleaseDir)\SpanDSPFax_ptplugin.dll'
+                                      KeyPath='yes' />
+                            </Component>
+                            <Component Id='SpanDSPLib'
+                                       Win64="$(var.IsWin64)"
+                                       Guid='*'>
+                                <File Id='SpanDSPLib_DLL'
+                                      Name='libspandsp.dll'
+                                      Source='$(var.SpanDspDir)$(var.SpanDspSubDir)\libspandsp.dll'
+                                      KeyPath='yes' />
+                            </Component>
+                        <?endif?>
+                        <Component Id='OPAL'
+                                   Win64="$(var.IsWin64)"
+                                   Guid='*'>
+                            <File Id='OPAL_DLL'
+                                  Name='$(var.OPALName).DLL'
+                                  Source='$(var.OPALDir)\lib\$(var.OPALName).DLL'
+                                  KeyPath='yes' />
+                        </Component>
+                        <Component Id='OPALSymbols'
+                                   Win64="$(var.IsWin64)"
+                                   Guid='*'>
+                            <File Id='OPAL_PDB'
+                                  Name='$(var.OPALName).PDB'
+                                  Source='$(var.OPALDir)\lib\$(var.OPALName).PDB'
+                                  KeyPath='yes' />
+                        </Component>
+                        <Component Id='PTLib'
+                                   Win64="$(var.IsWin64)"
+                                   Guid='*'>
+                            <File Id='PTLib_DLL'
+                                  Name='$(var.PTLibName).DLL'
+                                  Source='$(var.PTLibDir)\lib\$(var.PTLibName).DLL'
+                                  KeyPath='yes' />
+                        </Component>
+                        <Component Id='PTLibSymbols'
+                                   Win64="$(var.IsWin64)"
+                                   Guid='*'>
+                            <File Id='PTLib_PDB'
+                                  Name='$(var.PTLibName).PDB'
+                                  Source='$(var.PTLibDir)\lib\$(var.PTLibName).PDB'
+                                  KeyPath='yes' />
+                        </Component>
+                        <?if $(var.SSLDir) != "" ?>
+                            <Component Id='OpenSSL1'
+                                       Win64="$(var.IsWin64)"
+                                       Guid='*'>
+                                <File Id='LIBSSL_DLL'
+                                      Name='LIBSSL-$(var.SSLVer).DLL'
+                                      Source='$(var.SSLDir)\libssl-$(var.SSLVer).DLL'
+                                      KeyPath='yes' />
+                            </Component>
+                            <Component Id='OpenSSL2'
+                                       Win64="$(var.IsWin64)"
+                                       Guid='*'>
+                                <File Id='LIBCRYPTO_DLL'
+                                      Name='LIBCRYPTO-$(var.SSLVer).DLL'
+                                      Source='$(var.SSLDir)\libcrypto-$(var.SSLVer).DLL'
+                                      KeyPath='yes' />
+                            </Component>
+                        <?endif?>
+                        <?if $(var.LuaDir) != "" ?>
+                            <Component Id='Lua'
+                                       Win64="$(var.IsWin64)"
+                                       Guid='*'>
+                                <File Id='Lua_DLL'
+                                      Name='LUA53.DLL'
+                                      Source='$(var.LuaDir)\LUA53.DLL'
+                                      KeyPath='yes' />
+                            </Component>
+                        <?endif?>
+                        <?if $(var.V8Dir) != "" ?>
+                            <Component Id='V8_snapshot_blob'
+                                       Win64="$(var.IsWin64)"
+                                       Guid='*'>
+                                <File Id='V8_snapshot_blob_bin'
+                                      Name='snapshot_blob.bin'
+                                      Source='$(var.V8Dir)$(var.V8SubDir)\snapshot_blob.bin'
+                                      KeyPath='yes' />
+                            </Component>
+                            <Component Id='V8_natives_blob'
+                                       Win64="$(var.IsWin64)"
+                                       Guid='*'>
+                                <File Id='V8_natives_blob_bin'
+                                      Name='natives_blob.bin'
+                                      Source='$(var.V8Dir)$(var.V8SubDir)\natives_blob.bin'
+                                      KeyPath='yes' />
+                            </Component>
+                        <?endif?>
+                        <?if $(var.JPEGDir) != "" ?>
+                            <Component Id='JPEG'
+                                       Win64="$(var.IsWin64)"
+                                       Guid='*'>
+                                <File Id='JPEG_DLL'
+                                      Name='JPEG62.DLL'
+                                      Source='$(var.JPEGDir)\bin\JPEG62.DLL'
+                                      KeyPath='yes' />
+                            </Component>
+                        <?endif?>
+                        <?if $(var.WxDir) != "" ?>
+                            <Component Id='WxXRC'
+                                       Win64="$(var.IsWin64)"
+                                       Guid='*'>
+                                <File Id='WXMSW$(var.WxVer)U_XRC_DLL'
+                                      Name='WXMSW$(var.WxVer)U_XRC_VC$(var.WxPlatform).DLL'
+                                      Source='$(var.WxDllDir)\WXMSW$(var.WxVer)U_XRC_VC$(var.WxPlatform).DLL'
+                                      KeyPath='yes' />
+                            </Component>
+                            <Component Id='WxHTML'
+                                       Win64="$(var.IsWin64)"
+                                       Guid='*'>
+                                <File Id='WXMSW$(var.WxVer)U_HTML_DLL'
+                                      Name='WXMSW$(var.WxVer)U_HTML_VC$(var.WxPlatform).DLL'
+                                      Source='$(var.WxDllDir)\WXMSW$(var.WxVer)U_HTML_VC$(var.WxPlatform).DLL'
+                                      KeyPath='yes' />
+                            </Component>
+                            <Component Id='WxADV'
+                                       Win64="$(var.IsWin64)"
+                                       Guid='*'>
+                                <File Id='WXMSW$(var.WxVer)U_ADV_DLL'
+                                      Name='WXMSW$(var.WxVer)U_ADV_VC$(var.WxPlatform).DLL'
+                                      Source='$(var.WxDllDir)\WXMSW$(var.WxVer)U_ADV_VC$(var.WxPlatform).DLL'
+                                      KeyPath='yes' />
+                            </Component>
+                            <Component Id='WxCore'
+                                       Win64="$(var.IsWin64)"
+                                       Guid='*'>
+                                <File Id='WXMSW$(var.WxVer)U_CORE_DLL'
+                                      Name='WXMSW$(var.WxVer)U_CORE_VC$(var.WxPlatform).DLL'
+                                      Source='$(var.WxDllDir)\WXMSW$(var.WxVer)U_CORE_VC$(var.WxPlatform).DLL'
+                                      KeyPath='yes' />
+                            </Component>
+                            <Component Id='WxXML'
+                                       Win64="$(var.IsWin64)"
+                                       Guid='*'>
+                                <File Id='WXBASE$(var.WxVer)U_XML_DLL'
+                                      Name='WXBASE$(var.WxVer)U_XML_VC$(var.WxPlatform).DLL'
+                                      Source='$(var.WxDllDir)\WXBASE$(var.WxVer)U_XML_VC$(var.WxPlatform).DLL'
+                                      KeyPath='yes' />
+                            </Component>
+                            <Component Id='WxBase'
+                                       Win64="$(var.IsWin64)"
+                                       Guid='*'>
+                                <File Id='WXBASE$(var.WxVer)U_DLL'
+                                      Name='WXBASE$(var.WxVer)U_VC$(var.WxPlatform).DLL'
+                                      Source='$(var.WxDllDir)\WXBASE$(var.WxVer)U_VC$(var.WxPlatform).DLL'
+                                      KeyPath='yes' />
+                            </Component>
+                        <?endif?>
+                    </Directory>
+                </Directory>
+            </Directory>
+
+            <Directory Id="ProgramMenuFolder"
+                        Name="Programs">
+                <Directory Id="ApplicationProgramMenuFolder"
+                           Name="$(var.ProductName)" />
+            </Directory>
+        </Directory>
+
+        <?ifndef CustomProgramMenuFolder ?>
+            <DirectoryRef Id="ApplicationProgramMenuFolder">
+                <Component Id="ApplicationProgramMenuShortcut"
+                           Guid="54704C8B-7822-4E06-AC20-26569F5700D1">
+                    <Shortcut Id="ApplicationProgramMenuShortcutMain"
+                              Name="$(var.ProductName)"
+                              Description="Execute $(var.ProductName)"
+                              Target="[INSTALLDIR]$(var.ProductBaseFilename).exe"
+                              WorkingDirectory="INSTALLDIR"
+                              Icon="$(var.ProductBaseFilename).ico"
+                              IconIndex="0"/>
+                    <RemoveFolder Id='ApplicationProgramMenuFolder'
+                                    On='uninstall' />
+                    <RegistryValue Root='HKCU'
+                                    Key='Software\[Manufacturer]\[ProductName]'
+                                    Type='string'
+                                    Value=''
+                                    KeyPath='yes' />
+                </Component>
+            </DirectoryRef>
+        <?endif?>
+        
+        <Icon Id="$(var.ProductBaseFilename).ico"
+              SourceFile=".\$(var.ProductBaseFilename).ico" />
+
+        <Feature Id='Complete'
+                 Title='$(var.ProductName)'
+                 Description='Full install'
+                 Display='expand'
+                 ConfigurableDirectory='INSTALLDIR'
+                 Level='1'>
+            <ComponentRef Id='MainExecutable' />
+            <ComponentRef Id='MainExecutableSymbols' />
+            <ComponentRef Id='ApplicationProgramMenuShortcut' />
+        </Feature>
+        
+        <?ifdef CustomWXS ?>
+            <?include $(var.CustomWXS) ?>
+        <?endif?>
+
+        <Feature Id='Codecs'
+                 Title="OPAL Codec Plug-ins"
+                 Level='1'>
+            <ComponentRef Id='G.722.2' />
+            <ComponentRef Id='GSM_AMR' />
+            <ComponentRef Id='openH264' />
+            <ComponentRef Id='G.722' />
+            <ComponentRef Id='G.722.1' />
+            <ComponentRef Id='G.726' />
+            <ComponentRef Id='GSM0610' />
+            <ComponentRef Id='iLBC' />
+            <ComponentRef Id='iSAC' />
+            <ComponentRef Id='Opus' />
+            <ComponentRef Id='Speex' />
+            <ComponentRef Id='H.261' />
+            <?if $(var.FFMPEGDir) != "" ?>
+                <ComponentRef Id='H.263' />
+                <ComponentRef Id='H.264' />
+                <ComponentRef Id='MPEG4' />
+                <ComponentRef Id='AVFORMAT' />
+                <ComponentRef Id='AVCODEC' />
+                <ComponentRef Id='AVUTIL' />
+                <ComponentRef Id='SWRESAMPLE' />
+                <ComponentRef Id='SWSCALE' />
+            <?endif?>
+            <ComponentRef Id='VP8' />
+            <?if $(var.SpanDspDir) != "" ?>
+                <ComponentRef Id='SpanDSPFax' />
+                <ComponentRef Id='SpanDSPLib' />
+            <?endif?>
+        </Feature>
+
+        <Feature Id='OPAL'
+                 Title="Open Phone Abstraction Library"
+                 AllowAdvertise="no"
+                 Display="hidden"
+                 Level='1'>
+            <ComponentRef Id='OPAL' />
+            <ComponentRef Id='OPALSymbols' />
+            <ComponentRef Id='OpenSSL1' />
+            <ComponentRef Id='OpenSSL2' />
+        </Feature>
+
+        <Feature Id='PTLib'
+                 Title="Portable Tools Library"
+                 AllowAdvertise="no"
+                 Display="hidden"
+                 Level='1'>
+            <ComponentRef Id='PTLib' />
+            <ComponentRef Id='PTLibSymbols' />
+            <?if $(var.SSLDir) != "" ?>
+                <ComponentRef Id='OpenSSL1' />
+                <ComponentRef Id='OpenSSL2' />
+            <?endif?>
+            <?if $(var.LuaDir) != "" ?>
+                <ComponentRef Id='Lua' />
+            <?endif?>
+            <?if $(var.V8Dir) != "" ?>
+                <ComponentRef Id='V8_snapshot_blob' />
+                <ComponentRef Id='V8_natives_blob' />
+            <?endif?>
+            <?if $(var.JPEGDir) != "" ?>
+                <ComponentRef Id='JPEG' />
+            <?endif?>
+        </Feature>
+
+        <?if $(var.WxDir) != "" ?>
+            <Feature Id='WxWidgets'
+                     Title="wxWidgets library"
+                     AllowAdvertise="no"
+                     Display="hidden"
+                     Level='1'>
+                <ComponentRef Id='WxBase' />
+                <ComponentRef Id='WxXML' />
+                <ComponentRef Id='WxCore' />
+                <ComponentRef Id='WxADV' />
+                <ComponentRef Id='WxHTML' />
+                <ComponentRef Id='WxXRC' />
+            </Feature>
+        <?endif?>
+
+        <Feature Id="VCRedist"
+                 Title="Microsoft C++ Run Time Libraries"
+                 AllowAdvertise="no"
+                 Display="hidden"
+                 Level="1">
+            <MergeRef Id="VCRedist"/>
+        </Feature>
+
+        <DirectoryRef Id="TARGETDIR">
+            <Merge Id="VCRedist"
+                   SourceFile="$(env.ProgramW6432)\Common Files\Merge Modules\Microsoft_VC$(var.MSVCRT_VER)_CRT_$(var.Architecture).msm"
+                   DiskId="1"
+                   Language="0"/>
+        </DirectoryRef>
+    </Product>
+</Wix>

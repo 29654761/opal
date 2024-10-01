@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>libjpeg</ProjectName>
+    <ProjectGuid>{2dc64a78-365e-4836-9659-807e41f42a69}</ProjectGuid>
+    <RootNamespace>libjpeg</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>14.0.25431.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\..\..\bin\plugins\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(OutDir)</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>..\..\..\bin\plugins\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(OutDir)</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\..\..\bin\plugins\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(OutDir)</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>..\..\..\bin\plugins\$(Platform)\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(OutDir)</IntDir>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <BuildLog>
+      <Path>$(IntDir)BuildLog $(ProjectName).htm</Path>
+    </BuildLog>
+    <PreBuildEvent>
+      <Command>if exist "$(ProjectDir)jpeg" exit 0
+cscript /nologo "$(ProjectDir)..\..\..\make\downloader.vbs" GetUnzip http://files.freeswitch.org/downloads/libs/jpegsrc.v8d.tar.gz "$(ProjectDir)"
+move "$(ProjectDir)jpeg-8d" "$(ProjectDir)jpeg"
+copy "$(ProjectDir)jpeg\jconfig.vc" "$(ProjectDir)jpeg\jconfig.h"</Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;FILLODER_LSB2MSB;TIF_PLATFORM_CONSOLE;CCITT_SUPPORT;PACKBITS_SUPPORT;LZW_SUPPORT;THUNDER_SUPPORT;NEXT_SUPPORT;LOGLUV_SUPPORT;TRIPCHOP_DEFAULT=jpeg_STRIPCHOP;STRIP_SIZE_DEFAULT=8192;DEFAULT_EXTRASAMPLE_AS_ALPHA;CHECK_JPEG_YCBCR_SUBSAMPLING;AVOID_WIN32_FILEIO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PreBuildEvent>
+      <Command>if exist "$(ProjectDir)jpeg" exit 0
+cscript /nologo "$(ProjectDir)..\..\..\make\downloader.vbs" GetUnzip http://files.freeswitch.org/downloads/libs/jpegsrc.v8d.tar.gz "$(ProjectDir)"
+move "$(ProjectDir)jpeg-8d" "$(ProjectDir)jpeg"
+copy "$(ProjectDir)jpeg\jconfig.vc" "$(ProjectDir)jpeg\jconfig.h"</Command>
+      <Message>Download and unpack libjpeg, if required.</Message>
+    </PreBuildEvent>
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;FILLODER_LSB2MSB;TIF_PLATFORM_CONSOLE;CCITT_SUPPORT;PACKBITS_SUPPORT;LZW_SUPPORT;THUNDER_SUPPORT;NEXT_SUPPORT;LOGLUV_SUPPORT;TRIPCHOP_DEFAULT=jpeg_STRIPCHOP;STRIP_SIZE_DEFAULT=8192;DEFAULT_EXTRASAMPLE_AS_ALPHA;CHECK_JPEG_YCBCR_SUBSAMPLING;AVOID_WIN32_FILEIO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <BuildLog>
+      <Path>$(IntDir)BuildLog $(ProjectName).htm</Path>
+    </BuildLog>
+    <PreBuildEvent>
+      <Command>if exist "$(ProjectDir)jpeg" exit 0
+cscript /nologo "$(ProjectDir)..\..\..\make\downloader.vbs" GetUnzip http://files.freeswitch.org/downloads/libs/jpegsrc.v8d.tar.gz "$(ProjectDir)"
+move "$(ProjectDir)jpeg-8d" "$(ProjectDir)jpeg"
+copy "$(ProjectDir)jpeg\jconfig.vc" "$(ProjectDir)jpeg\jconfig.h"</Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;FILLODER_LSB2MSB;TIF_PLATFORM_CONSOLE;CCITT_SUPPORT;PACKBITS_SUPPORT;LZW_SUPPORT;THUNDER_SUPPORT;NEXT_SUPPORT;LOGLUV_SUPPORT;TRIPCHOP_DEFAULT=jpeg_STRIPCHOP;STRIP_SIZE_DEFAULT=8192;DEFAULT_EXTRASAMPLE_AS_ALPHA;CHECK_JPEG_YCBCR_SUBSAMPLING;AVOID_WIN32_FILEIO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <PreBuildEvent>
+      <Command>if exist "$(ProjectDir)jpeg" exit 0
+cscript /nologo "$(ProjectDir)..\..\..\make\downloader.vbs" GetUnzip http://files.freeswitch.org/downloads/libs/jpegsrc.v8d.tar.gz "$(ProjectDir)"
+move "$(ProjectDir)jpeg-8d" "$(ProjectDir)jpeg"
+copy "$(ProjectDir)jpeg\jconfig.vc" "$(ProjectDir)jpeg\jconfig.h"</Command>
+      <Message>Download and unpack libjpeg, if required.</Message>
+    </PreBuildEvent>
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;FILLODER_LSB2MSB;TIF_PLATFORM_CONSOLE;CCITT_SUPPORT;PACKBITS_SUPPORT;LZW_SUPPORT;THUNDER_SUPPORT;NEXT_SUPPORT;LOGLUV_SUPPORT;TRIPCHOP_DEFAULT=jpeg_STRIPCHOP;STRIP_SIZE_DEFAULT=8192;DEFAULT_EXTRASAMPLE_AS_ALPHA;CHECK_JPEG_YCBCR_SUBSAMPLING;AVOID_WIN32_FILEIO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="jpeg\cderror.h" />
+    <ClInclude Include="jpeg\cdjpeg.h" />
+    <ClInclude Include="jpeg\jdct.h" />
+    <ClInclude Include="jpeg\jerror.h" />
+    <ClInclude Include="jpeg\jinclude.h" />
+    <ClInclude Include="jpeg\jmemsys.h" />
+    <ClInclude Include="jpeg\jmorecfg.h" />
+    <ClInclude Include="jpeg\jpegint.h" />
+    <ClInclude Include="jpeg\jpeglib.h" />
+    <ClInclude Include="jpeg\jversion.h" />
+    <ClInclude Include="jpeg\transupp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="jpeg\jaricom.c" />
+    <ClCompile Include="jpeg\jcapimin.c" />
+    <ClCompile Include="jpeg\jcapistd.c" />
+    <ClCompile Include="jpeg\jcarith.c" />
+    <ClCompile Include="jpeg\jccoefct.c" />
+    <ClCompile Include="jpeg\jccolor.c" />
+    <ClCompile Include="jpeg\jcdctmgr.c" />
+    <ClCompile Include="jpeg\jchuff.c" />
+    <ClCompile Include="jpeg\jcinit.c" />
+    <ClCompile Include="jpeg\jcmainct.c" />
+    <ClCompile Include="jpeg\jcmarker.c" />
+    <ClCompile Include="jpeg\jcmaster.c" />
+    <ClCompile Include="jpeg\jcomapi.c" />
+    <ClCompile Include="jpeg\jcparam.c" />
+    <ClCompile Include="jpeg\jcprepct.c" />
+    <ClCompile Include="jpeg\jcsample.c" />
+    <ClCompile Include="jpeg\jdapimin.c" />
+    <ClCompile Include="jpeg\jdapistd.c" />
+    <ClCompile Include="jpeg\jdarith.c" />
+    <ClCompile Include="jpeg\jdatadst.c" />
+    <ClCompile Include="jpeg\jdatasrc.c" />
+    <ClCompile Include="jpeg\jdcoefct.c" />
+    <ClCompile Include="jpeg\jdcolor.c" />
+    <ClCompile Include="jpeg\jddctmgr.c" />
+    <ClCompile Include="jpeg\jdhuff.c" />
+    <ClCompile Include="jpeg\jdinput.c" />
+    <ClCompile Include="jpeg\jdmainct.c" />
+    <ClCompile Include="jpeg\jdmarker.c" />
+    <ClCompile Include="jpeg\jdmaster.c" />
+    <ClCompile Include="jpeg\jdmerge.c" />
+    <ClCompile Include="jpeg\jdpostct.c" />
+    <ClCompile Include="jpeg\jdsample.c" />
+    <ClCompile Include="jpeg\jerror.c" />
+    <ClCompile Include="jpeg\jfdctflt.c" />
+    <ClCompile Include="jpeg\jfdctfst.c" />
+    <ClCompile Include="jpeg\jfdctint.c" />
+    <ClCompile Include="jpeg\jidctflt.c" />
+    <ClCompile Include="jpeg\jidctfst.c" />
+    <ClCompile Include="jpeg\jidctint.c" />
+    <ClCompile Include="jpeg\jmemansi.c" />
+    <ClCompile Include="jpeg\jmemmgr.c" />
+    <ClCompile Include="jpeg\jquant1.c" />
+    <ClCompile Include="jpeg\jquant2.c" />
+    <ClCompile Include="jpeg\jutils.c" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

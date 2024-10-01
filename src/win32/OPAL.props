@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <OpalGitRootDir Condition="'$(OpalGitRootDir)' == ''">$(ProjectDir)..\..</OpalGitRootDir>
+    <EXTERNALDIR Condition="'$(EXTERNALDIR)' == ''">$(ProjectDir)..\..\..\external</EXTERNALDIR>
+    <OPENSSL32DIR Condition="'$(OPENSSL32DIR)' == ''">$(MSBuildProgramFiles32)\OpenSSL-Win32</OPENSSL32DIR>
+    <OPENSSL64DIR Condition="'$(OPENSSL64DIR)' == ''">$(ProgramW6432)\OpenSSL-Win64\</OPENSSL64DIR>
+    <LUA32DIR Condition="'$(LUA32DIR)' == ''">$(EXTERNALDIR)\Lua-win32</LUA32DIR>
+    <LUA64DIR Condition="'$(LUA64DIR)' == ''">$(EXTERNALDIR)\Lua-win64</LUA64DIR>
+    <V8_DIR Condition="'$(V8_DIR)' == ''">$(EXTERNALDIR)\v8</V8_DIR>
+    <FFMPEG32DIR Condition="'$(FFMPEG32DIR)' == ''">$(EXTERNALDIR)\ffmpeg-win32-dev</FFMPEG32DIR>
+    <FFMPEG64DIR Condition="'$(FFMPEG64DIR)' == ''">$(EXTERNALDIR)\ffmpeg-win64-dev</FFMPEG64DIR>
+    <JPEG32DIR Condition="'$(JPEG32DIR)' == ''">$(EXTERNALDIR)\libjpeg-turbo</JPEG32DIR>
+    <JPEG64DIR Condition="'$(JPEG64DIR)' == ''">$(EXTERNALDIR)\libjpeg-turbo64</JPEG64DIR>
+    <WXDIR Condition="'$(WXDIR)' == ''">$(EXTERNALDIR)\wxWidgets</WXDIR>
+    <VPXDIR Condition="'$(VPXDIR)' == ''">$(ProjectDir)..\..\..\external\vpx-vp8</VPXDIR>
+    <SPANDSPDIR Condition="'$(SPANDSPDIR)' == ''">$(ProjectDir)..\..\..\external\spandsp-0.0.6</SPANDSPDIR>
+    <PTLIBDIR Condition="'$(PTLIBDIR)' == ''">$(ProjectDir)..\..\..\PTLib</PTLIBDIR>
+    <LIB32PATH>$(LUA32DIR);$(OPENSSL32DIR)\bin;$(FFMPEG32DIR)\bin;$(wxLibOrDllDir);$(PTLIBDIR)\Lib;$(ProjectDir)..\..\Lib</LIB32PATH>
+    <LIB64PATH>$(LUA64DIR);$(OPENSSL64DIR)\bin;$(FFMPEG64DIR)\bin;$(wxLibOrDllDir);$(PTLIBDIR)\Lib;$(ProjectDir)..\..\Lib</LIB64PATH>
+    <LocalDebuggerEnvironment>PTLIBPLUGINDIR=$(ProjectDir)..\..\bin\plugins\$(Platform)\$(Configuration)
+PATH=$(PATH);$(LIB64PATH)</LocalDebuggerEnvironment>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup />
+  <ItemGroup>
+    <BuildMacro Include="OpalGitRootDir">
+      <Value>$(OpalGitRootDir)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="EXTERNALDIR">
+      <Value>$(EXTERNALDIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="OPENSSL32DIR">
+      <Value>$(OPENSSL32DIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="OPENSSL64DIR">
+      <Value>$(OPENSSL64DIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="LUA32DIR">
+      <Value>$(LUA32DIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="LUA64DIR">
+      <Value>$(LUA64DIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="V8_DIR">
+      <Value>$(V8_DIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="FFMPEG32DIR">
+      <Value>$(FFMPEG32DIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="FFMPEG64DIR">
+      <Value>$(FFMPEG64DIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="JPEG32DIR">
+      <Value>$(JPEG32DIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="JPEG64DIR">
+      <Value>$(JPEG64DIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="WXDIR">
+      <Value>$(WXDIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="VPXDIR">
+      <Value>$(VPXDIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="SPANDSPDIR">
+      <Value>$(SPANDSPDIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="PTLIBDIR">
+      <Value>$(PTLIBDIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="LIB32PATH">
+      <Value>$(LIB32PATH)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LIB64PATH">
+      <Value>$(LIB64PATH)</Value>
+    </BuildMacro>
+    <BuildMacro Include="LocalDebuggerEnvironment">
+      <Value>$(LocalDebuggerEnvironment)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
