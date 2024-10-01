@@ -1,0 +1,8 @@
+<Include>
+   <?define OPAL_MAJOR=3 ?>
+   <?define OPAL_MINOR=18 ?>
+   <?define OPAL_PATCH=8 ?>
+   <?define OPAL_OEM=0 ?>
+   <?define OPAL_VERSION=3.18.8 ?>
+</Include>
+
