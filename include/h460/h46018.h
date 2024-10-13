@@ -6,7 +6,7 @@
 
 #include <opal_config.h>
 
-#if ! H323_DISABLE_H46018
+//#if ! H323_DISABLE_H46018
 
 #ifndef __H46018_H
 #define __H46018_H
@@ -73,7 +73,7 @@ class H46018_LRQKeepAliveData : public PASN_Sequence
 
 #endif // __H46018_H
 
-#endif // if ! H323_DISABLE_H46018
+//#endif // if ! H323_DISABLE_H46018
 
 
 // End of h46018.h

@@ -713,7 +713,7 @@ bool OpalMediaTransport::SetRemoteAddress(const OpalTransportAddress &, SubChann
   return true;
 }
 
-
+#ifdef OPAL_PTLIB_NAT
 void OpalMediaTransport::SetCandidates(const PString &, const PString &, const PNatCandidateList &)
 {
 }
@@ -723,7 +723,7 @@ bool OpalMediaTransport::GetCandidates(PString &, PString &, PNatCandidateList &
 {
   return true;
 }
-
+#endif
 
 #if OPAL_SRTP
 bool OpalMediaTransport::GetKeyInfo(OpalMediaCryptoKeyInfo * [2])
@@ -1307,6 +1307,7 @@ bool OpalUDPMediaTransport::Open(OpalMediaSession & session,
 
   PTRACE(4, session << "opening " << subchannelCount << " subchannel(s):"
             " interface=\"" << localInterface << "\" local=" << bindingIP << " remote=" << remoteIP);
+
 
 #if OPAL_PTLIB_NAT
   if (!manager.IsLocalAddress(remoteIP)) {

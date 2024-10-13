@@ -916,7 +916,7 @@ void OpalListenerUDP::Close()
     m_listenerBundle->Close();
 }
 
-
+#ifdef OPAL_PTLIB_NAT
 bool OpalListenerUDP::ChangedNAT()
 {
   if (m_listenerBundle == NULL)
@@ -925,7 +925,7 @@ bool OpalListenerUDP::ChangedNAT()
   CloseWait();
   return Open(m_acceptHandler, m_threadMode);
 }
-
+#endif
 
 OpalTransport * OpalListenerUDP::Accept(const PTimeInterval & timeout)
 {

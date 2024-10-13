@@ -445,6 +445,7 @@ class OpalMediaTransport : public PSafeObject, public OpalMediaTransportChannelT
       */
     virtual bool SetRemoteAddress(const OpalTransportAddress & remoteAddress, SubChannels subchannel = e_Media);
 
+#ifdef OPAL_PTLIB_NAT
     /**Set the candidates for use in this media transport.
       */
     virtual void SetCandidates(
@@ -461,7 +462,7 @@ class OpalMediaTransport : public PSafeObject, public OpalMediaTransportChannelT
       PNatCandidateList & candidates,
       bool offering
     );
-
+#endif
     /**Write to media transport.
       */
     virtual bool Write(

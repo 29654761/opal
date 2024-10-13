@@ -3145,9 +3145,9 @@ OpalMediaTransport * OpalRTPSession::CreateMediaTransport(const PString & name)
 
 bool OpalRTPSession::Open(const PString & localInterface, const OpalTransportAddress & remoteAddress)
 {
-  if (IsOpen())
-    return true;
-
+    if (IsOpen()) {
+        return true;
+    }
   P_INSTRUMENTED_LOCK_READ_WRITE(return false);
 
   PString transportName("RTP ");
