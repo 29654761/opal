@@ -2921,14 +2921,16 @@ void SIPDialogContext::Update(const SIP_PDU & pdu)
      TCP/UDP Problems conversions of a proxy are not solved with this work around.
      See RFC 5658 for a description of these problems.
   */
-  //Edited by zsj
-  /*if (m_requestURI.IsEmpty() || pdu.GetMethod() != SIP_PDU::NumMethods || pdu.GetStatusCode()/100 == 2) {
-    SIPURL contact = mime.GetContact();
-    if (!contact.IsEmpty()) {
-      m_requestURI = contact;
-      PTRACE(4, "Set Request URI to " << m_requestURI);
-    }
-  }*/
+
+  // Edited by zsj
+  //if (m_requestURI.IsEmpty() || pdu.GetMethod() != SIP_PDU::NumMethods || pdu.GetStatusCode()/100 == 2)
+  //{
+  //  SIPURL contact = mime.GetContact();
+  //  if (!contact.IsEmpty()) {
+  //    m_requestURI = contact;
+  //    PTRACE(4, "Set Request URI to " << m_requestURI);
+  //  }
+  //}
 
   /* Update the local/remote fields */
   if (pdu.GetMethod() == SIP_PDU::NumMethods) {

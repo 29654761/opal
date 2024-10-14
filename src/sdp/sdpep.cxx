@@ -883,6 +883,19 @@ bool OpalSDPConnection::OnSendAnswerSDP(const SDPSessionDescription & sdpOffer, 
     if (!PAssert(incomingMedia != NULL, PLogicError))
       return false;
 
+    // Add by zsj
+    OpalMediaType mediaType = incomingMedia->GetMediaType();
+    if (mediaType != OpalMediaType::Video() && mediaType != OpalMediaType::Audio())
+    {
+        continue;
+    }
+    SDPMediaDescription* testMediaType = sdpOut.GetMediaDescriptionByType(mediaType);
+    if (testMediaType)
+    {
+        continue;
+    }
+    // Add by zsj
+
     SDPMediaDescription * mediaDescription = sdpMediaDescriptions[sessionId];
     OpalMediaSession * mediaSession = GetMediaSession(sessionId);
     if (mediaDescription != NULL && mediaSession != NULL)
@@ -900,9 +913,31 @@ bool OpalSDPConnection::OnSendAnswerSDP(const SDPSessionDescription & sdpOffer, 
       }
       if (mediaDescription == NULL)
         mediaDescription = mediaSession->CreateSDPMediaDescription();
+    
+    }
+    mediaDescription->FromSession(mediaSession, incomingMedia, 0);
+    
+    PNatMethod* natMethod=m_endpoint.GetManager().GetNatMethods().GetMethodByName(PNatMethod_Fixed::MethodName());
+    if (natMethod)
+    {
+        PIPSocket::Address natAddress;
+        if (natMethod->GetExternalAddress(natAddress))
+        {
+            OpalTransportAddress media = mediaDescription->GetMediaAddress();
+            OpalTransportAddress control = mediaDescription->GetMediaAddress();
+
+            PIPAddress mediaAddr;
+            WORD mediaPort = 0;
+            media.GetIpAndPort(mediaAddr, mediaPort);
+
+            PIPAddress ctrlAddr;
+            WORD ctrlPort = 0;
+            control.GetIpAndPort(mediaAddr, mediaPort);
+
+            mediaDescription->SetAddresses(OpalTransportAddress(natAddress, mediaPort), OpalTransportAddress(natAddress, ctrlPort));
+        }
     }
 
-    mediaDescription->FromSession(mediaSession, incomingMedia, 0);
     sdpOut.AddMediaDescription(mediaDescription);
   }
 

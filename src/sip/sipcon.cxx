@@ -245,7 +245,14 @@ SIPConnection::SIPConnection(const Init & init)
   , m_receivedUserInputMethod(UserInputMethodUnknown)
 {
   SIPURL adjustedDestination = init.m_address;
-
+  if (init.m_invite)
+  {
+      OpalTransportPtr transport=init.m_invite->GetTransport();
+      if (transport)
+      {
+          adjustedDestination=transport->GetRemoteAddress();
+      }
+  }
   // Look for a "proxy" parameter to override default proxy
   PStringToString params = adjustedDestination.GetParamVars();
   SIPURL proxy;
