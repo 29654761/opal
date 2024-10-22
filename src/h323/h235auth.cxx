@@ -420,11 +420,13 @@ H235Authenticator::ValidationResult H235AuthSimpleMD5::ValidateCryptoToken(
   const H225_CryptoH323Token_cryptoEPPwdHash & cryptoEPPwdHash = cryptoToken;
 
   PString alias = H323GetAliasAddressString(cryptoEPPwdHash.m_alias);
-  if (!remoteId.IsEmpty() && alias != remoteId) {
-    PTRACE(1, "H235RAS\tH235AuthSimpleMD5 alias is \"" << alias
-           << "\", should be \"" << remoteId << '"');
-    return e_Error;
-  }
+
+  // Edited by zsj
+  //if (!remoteId.IsEmpty() && alias != remoteId) {
+  //  PTRACE(1, "H235RAS\tH235AuthSimpleMD5 alias is \"" << alias
+  //         << "\", should be \"" << remoteId << '"');
+  //  return e_Error;
+  //}
 
   // Build the clear token
   H235_ClearToken clearToken;
