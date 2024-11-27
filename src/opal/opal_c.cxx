@@ -575,7 +575,7 @@ PString BuildProductName(const OpalProductInfo & info)
 {
   if (info.comments.IsEmpty())
     return info.name;
-  if (info.comments[0] == '(')
+  if (info.comments[(PINDEX)0] == '(')
     return info.name + ' ' + info.comments;
   return info.name + " (" + info.comments + ')';
 }

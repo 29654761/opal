@@ -1124,7 +1124,7 @@ H323GatekeeperRequest::Response H323GatekeeperCall::OnDisengage(H323GatekeeperDR
     }
     else {
       PASN_OctetString & cause = info.drq.m_terminationCause;
-      m_callEndReason = H323TranslateToCallEndReason((Q931::CauseValues)(cause[1]&0x7f), UINT_MAX);
+      m_callEndReason = H323TranslateToCallEndReason((Q931::CauseValues)(cause[(PINDEX)1]&0x7f), UINT_MAX);
     }
   }
 
@@ -1182,11 +1182,11 @@ H323GatekeeperRequest::Response H323GatekeeperCall::OnInfoResponse(H323Gatekeepe
       info.m_nonStandardData.m_nonStandardIdentifier.GetTag() == H225_NonStandardIdentifier::e_h221NonStandard) {
     H225_H221NonStandard & id = info.m_nonStandardData.m_nonStandardIdentifier;
     if (id.m_t35CountryCode == 181 && id.m_t35Extension == 0 && id.m_manufacturerCode == 18 && // Cisco
-        info.m_nonStandardData.m_data.GetSize() == 5 && info.m_nonStandardData.m_data[0] == 0x70) {
-      PTime theConnectedTime((info.m_nonStandardData.m_data[1] << 24)|
-                             (info.m_nonStandardData.m_data[2] << 16)|
-                             (info.m_nonStandardData.m_data[3] << 8 )|
-                             info.m_nonStandardData.m_data[4]        );
+        info.m_nonStandardData.m_data.GetSize() == 5 && info.m_nonStandardData.m_data[(PINDEX)0] == 0x70) {
+      PTime theConnectedTime((info.m_nonStandardData.m_data[(PINDEX)1] << 24)|
+                             (info.m_nonStandardData.m_data[(PINDEX)2] << 16)|
+                             (info.m_nonStandardData.m_data[(PINDEX)3] << 8 )|
+                             info.m_nonStandardData.m_data[(PINDEX)4]        );
       if (theConnectedTime > now || theConnectedTime < m_callStartTime) {
         m_connectedTime = now;
         OnConnected();
@@ -1775,7 +1775,7 @@ H323GatekeeperRequest::Response H323RegisteredEndPoint::OnFullRegistration(H323G
   m_h225Version = 0;
   PUnsignedArray protocolVer = info.rrq.m_protocolIdentifier.GetValue();
   if (protocolVer.GetSize() >= 6)
-    m_h225Version = protocolVer[6];
+    m_h225Version = protocolVer[(PINDEX)6];
 
   H323GatekeeperRequest::Response respone = OnSecureRegistration(info);
 

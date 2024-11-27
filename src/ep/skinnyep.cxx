@@ -845,7 +845,7 @@ bool OpalSkinnyEndPoint::OnReceiveMsg(PhoneDevice &, const KeyPadButtonMsg &)
 
 void OpalSkinnyEndPoint::KeyPadButtonMsg::PrintOn(ostream & strm) const
 {
-  strm << GetClass() << " '" << SkinnyToneIndexes[m_dtmf] << "' line=" << m_lineInstance << " call=" << m_callIdentifier;
+  strm << GetClass() << " '" << SkinnyToneIndexes[(PINDEX)m_dtmf] << "' line=" << m_lineInstance << " call=" << m_callIdentifier;
 }
 
 

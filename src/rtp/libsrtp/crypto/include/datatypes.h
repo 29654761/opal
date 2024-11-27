@@ -297,6 +297,25 @@ _stdcall
 ntohl(
     _In_ unsigned long netlong
 );
+
+_declspec(dllimport) unsigned long
+_stdcall
+htonl(
+    _In_ unsigned long netlong
+);
+
+_declspec(dllimport) unsigned short
+_stdcall
+ntohs(
+    _In_ unsigned short netlong
+);
+
+_declspec(dllimport) unsigned short
+_stdcall
+htons(
+    _In_ unsigned short netlong
+);
+
 #endif /* HAVE_NETINET_IN_H */
 #define be32_to_cpu(x) ntohl((x))
 #endif /* HAVE_X86 */

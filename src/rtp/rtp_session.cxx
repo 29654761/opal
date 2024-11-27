@@ -1762,7 +1762,7 @@ OpalRTPSession::SendReceiveStatus OpalRTPSession::OnPreReceiveData(RTP_DataFrame
   if (pt > RTP_DataFrame::MaxPayloadType)
     return e_IgnorePacket; // Non fatal error, just ignore
 
-  if (pt == RTP_DataFrame::T38 && frame[3] >= 0x80 && frame.GetPayloadSize() == 0) {
+  if (pt == RTP_DataFrame::T38 && frame[(PINDEX)3] >= 0x80 && frame.GetPayloadSize() == 0) {
     PTRACE(4, *this << "ignoring left over audio packet from switch to T.38");
     return e_IgnorePacket; // Non fatal error, just ignore
   }

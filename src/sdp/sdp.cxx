@@ -1139,7 +1139,7 @@ void SDPMediaDescription::Encode(const OpalTransportAddress & commonAddr, ostrea
   PString portList = GetSDPPortList();
   if (portList.IsEmpty())
     strm << " *";
-  else if (portList[0] == ' ')
+  else if (portList[(PINDEX)0] == ' ')
     strm << portList;
   else
     strm << ' ' << portList;
@@ -1963,7 +1963,7 @@ void SDPRTPAVPMediaDescription::SetAttribute(const PString & attr, const PString
   }
 
   if (attr *= "rtcp-fb") {
-    if (value[0] == '*') {
+    if (value[(PINDEX)0] == '*') {
       PString params = value.Mid(1).Trim();
       SDPMediaFormatList::iterator format;
       for (format = m_formats.begin(); format != m_formats.end(); ++format) {
@@ -2915,7 +2915,7 @@ bool SDPSessionDescription::Decode(const PStringArray & lines, const OpalMediaFo
   SDPMediaDescription * currentMedia = NULL;
   for (PINDEX lineIndex = 0; lineIndex < lines.GetSize(); lineIndex++) {
     const PString & line = lines[lineIndex];
-    if (line.GetLength() < 3 || line[1] != '=')
+    if (line.GetLength() < 3 || line[(PINDEX)1] != '=')
       continue; // Ignore illegal lines
 
     PString value = line.Mid(2).Trim();
@@ -2926,10 +2926,10 @@ bool SDPSessionDescription::Decode(const PStringArray & lines, const OpalMediaFo
     //
     /////////////////////////////////
 
-    if (currentMedia != NULL && line[0] != 'm')
-      currentMedia->Decode(line[0], value);
+    if (currentMedia != NULL && line[(PINDEX)0] != 'm')
+      currentMedia->Decode(line[(PINDEX)0], value);
     else {
-      switch (line[0]) {
+      switch (line[(PINDEX)0]) {
         case 'v' : // protocol version (mandatory)
           protocolVersion = value.AsInteger();
           break;

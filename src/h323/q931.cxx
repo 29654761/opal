@@ -287,15 +287,15 @@ PBoolean Q931::Decode(const PBYTEArray & data)
   if (data.GetSize() < 5) // Packet too short
     return false;
 
-  protocolDiscriminator = data[0];
+  protocolDiscriminator = data[(PINDEX)0];
 
-  if (data[1] != 2) // Call reference must be 2 bytes long
+  if (data[(PINDEX)1] != 2) // Call reference must be 2 bytes long
     return false;
 
-  callReference = ((data[2]&0x7f) << 8) | data[3];
-  fromDestination = (data[2]&0x80) != 0;
+  callReference = ((data[(PINDEX)2]&0x7f) << 8) | data[(PINDEX)3];
+  fromDestination = (data[(PINDEX)2]&0x80) != 0;
 
-  messageType = (MsgTypes)data[4];
+  messageType = (MsgTypes)data[(PINDEX)4];
 
   // Have preamble, start getting the informationElements into buffers
   PINDEX offset = 5;
@@ -359,14 +359,14 @@ PBoolean Q931::Encode(PBYTEArray & data) const
 
   // Put in Q931 header
   PAssert(protocolDiscriminator < 256, PInvalidParameter);
-  data[0] = (BYTE)protocolDiscriminator;
-  data[1] = 2; // Length of call reference
-  data[2] = (BYTE)(callReference >> 8);
+  data[(PINDEX)0] = (BYTE)protocolDiscriminator;
+  data[(PINDEX)1] = 2; // Length of call reference
+  data[(PINDEX)2] = (BYTE)(callReference >> 8);
   if (fromDestination)
-    data[2] |= 0x80;
-  data[3] = (BYTE)callReference;
+    data[(PINDEX)2] |= 0x80;
+  data[(PINDEX)3] = (BYTE)callReference;
   PAssert((PINDEX)messageType < 256, PInvalidParameter);
-  data[4] = (BYTE)messageType;
+  data[(PINDEX)4] = (BYTE)messageType;
 
   // The following assures disciminators are in ascending value order
   // as required by Q931 specification
@@ -423,7 +423,7 @@ void Q931::PrintOn(ostream & strm) const
         strm << setw(indent+4) << "IE: " << (InformationElementCodes)discriminator;
         if (discriminator == CauseIE) {
           if (element[idx].GetSize() > 1)
-            strm << " - " << (CauseValues)(element[idx][1]&0x7f);
+            strm << " - " << (CauseValues)(element[idx][(PINDEX)1]&0x7f);
         }
         strm << " = {\n"
              << hex << setfill('0') << resetiosflags(ios::floatfield)
@@ -675,12 +675,12 @@ PBoolean Q931::GetBearerCapabilities(InformationTransferCapability & capability,
   if (data.GetSize() < 2)
     return false;
 
-  capability = (InformationTransferCapability)(data[0]&0x1f);
+  capability = (InformationTransferCapability)(data[(PINDEX)0]&0x1f);
   if (codingStandard != NULL)
-    *codingStandard = (data[0] >> 5)&3;
+    *codingStandard = (data[(PINDEX)0] >> 5)&3;
 
   PINDEX nextByte = 2;
-  switch (data[1]) {
+  switch (data[(PINDEX)1]) {
     case 0x90 :
       transferRate = 1;
       break;
@@ -699,7 +699,7 @@ PBoolean Q931::GetBearerCapabilities(InformationTransferCapability & capability,
     case 0x18 :
       if (data.GetSize() < 3)
         return false;
-      transferRate = data[2]&0x7f;
+      transferRate = data[(PINDEX)2]&0x7f;
       nextByte = 3;
       break;
     default :
@@ -716,8 +716,8 @@ PBoolean Q931::GetBearerCapabilities(InformationTransferCapability & capability,
 void Q931::SetCause(CauseValues value, unsigned standard, unsigned location)
 {
   PBYTEArray data(2);
-  data[0] = (BYTE)(0x80 | ((standard&3) << 5) | (location&15));
-  data[1] = (BYTE)(0x80 | value);
+  data[(PINDEX)0] = (BYTE)(0x80 | ((standard&3) << 5) | (location&15));
+  data[(PINDEX)1] = (BYTE)(0x80 | value);
   SetIE(CauseIE, data);
 }
 
@@ -732,18 +732,18 @@ Q931::CauseValues Q931::GetCause(unsigned * standard, unsigned * location) const
     return ErrorInCauseIE;
 
   if (standard != NULL)
-    *standard = (data[0] >> 5)&3;
+    *standard = (data[(PINDEX)0] >> 5)&3;
   if (location != NULL)
-    *location = data[0]&15;
+    *location = data[(PINDEX)0]&15;
 
-  if ((data[0]&0x80) != 0)
-    return (CauseValues)(data[1]&0x7f);
+  if ((data[(PINDEX)0]&0x80) != 0)
+    return (CauseValues)(data[(PINDEX)1]&0x7f);
 
   // Allow for optional octet
   if (data.GetSize() < 3)
     return ErrorInCauseIE;
 
-  return (CauseValues)(data[2]&0x7f);
+  return (CauseValues)(data[(PINDEX)2]&0x7f);
 }
 
 
@@ -754,7 +754,7 @@ void Q931::SetCallState(CallStates value, unsigned standard)
 
   // Call State as per Q.931 section 4.5.7
   PBYTEArray data(1);
-  data[0] = (BYTE)(((standard&3) << 6) | value);
+  data[(PINDEX)0] = (BYTE)(((standard&3) << 6) | value);
   SetIE(CallStateIE, data);
 }
 
@@ -769,16 +769,16 @@ Q931::CallStates Q931::GetCallState(unsigned * standard) const
     return CallState_ErrorInIE;
 
   if (standard != NULL)
-    *standard = (data[0] >> 6)&3;
+    *standard = (data[(PINDEX)0] >> 6)&3;
 
-  return (CallStates)(data[0]&0x3f);
+  return (CallStates)(data[(PINDEX)0]&0x3f);
 }
 
 
 void Q931::SetSignalInfo(SignalInfo value)
 {
   PBYTEArray data(1);
-  data[0] = (BYTE)value;
+  data[(PINDEX)0] = (BYTE)value;
   SetIE(SignalIE, data);
 }
 
@@ -792,7 +792,7 @@ Q931::SignalInfo Q931::GetSignalInfo() const
   if (data.IsEmpty())
     return SignalErrorInIE;
 
-  return (SignalInfo)data[0];
+  return (SignalInfo)data[(PINDEX)0];
 }
 
 
@@ -821,8 +821,8 @@ void Q931::SetProgressIndicator(unsigned description,
                                 unsigned location)
 {
   PBYTEArray data(2);
-  data[0] = (BYTE)(0x80+((codingStandard&0x03)<<5)+(location&0x0f));
-  data[1] = (BYTE)(0x80+(description&0x7f));
+  data[(PINDEX)0] = (BYTE)(0x80+((codingStandard&0x03)<<5)+(location&0x0f));
+  data[(PINDEX)1] = (BYTE)(0x80+(description&0x7f));
   SetIE(ProgressIndicatorIE, data);
 }
 
@@ -839,10 +839,10 @@ PBoolean Q931::GetProgressIndicator(unsigned & description,
     return false;
 
   if (codingStandard != NULL)
-    *codingStandard = (data[0]>>5)&0x03;
+    *codingStandard = (data[(PINDEX)0]>>5)&0x03;
   if (location != NULL)
-    *location = data[0]&0x0f;
-  description = data[1]&0x7f;
+    *location = data[(PINDEX)0]&0x0f;
+  description = data[(PINDEX)1]&0x7f;
 
   return true;
 }
@@ -885,13 +885,13 @@ static PBYTEArray SetNumberIE(const PString & number,
   if (reason == -1) {
     if (presentation == -1 || screening == -1) {
       bytes.SetSize(len+1);
-      bytes[0] = (BYTE)(0x80|((type&7)<<4)|(plan&15));
+      bytes[(PINDEX)0] = (BYTE)(0x80|((type&7)<<4)|(plan&15));
       memcpy(bytes.GetPointer()+1, (const char *)number, len);
     }
     else {
       bytes.SetSize(len+2);
-      bytes[0] = (BYTE)(((type&7)<<4)|(plan&15));
-      bytes[1] = (BYTE)(0x80|((presentation&3)<<5)|(screening&3));
+      bytes[(PINDEX)0] = (BYTE)(((type&7)<<4)|(plan&15));
+      bytes[(PINDEX)1] = (BYTE)(0x80|((presentation&3)<<5)|(screening&3));
       memcpy(bytes.GetPointer()+2, (const char *)number, len);
     }
   } 
@@ -900,14 +900,14 @@ static PBYTEArray SetNumberIE(const PString & number,
     if (presentation == -1 || screening == -1) {
       // This situation should never occur!!!
       bytes.SetSize(len+1);
-      bytes[0] = (BYTE)(0x80|((type&7)<<4)|(plan&15));
+      bytes[(PINDEX)0] = (BYTE)(0x80|((type&7)<<4)|(plan&15));
       memcpy(bytes.GetPointer()+1, (const char *)number, len);
     }
     else {
       bytes.SetSize(len+3);
-      bytes[0] = (BYTE)(0x80|((type&7)<<4)|(plan&15));
-      bytes[1] = (BYTE)(0x80|((presentation&3)<<5)|(screening&3));
-      bytes[2] = (BYTE)(0x80|(reason&15));
+      bytes[(PINDEX)0] = (BYTE)(0x80|((type&7)<<4)|(plan&15));
+      bytes[(PINDEX)1] = (BYTE)(0x80|((presentation&3)<<5)|(screening&3));
+      bytes[(PINDEX)2] = (BYTE)(0x80|(reason&15));
       memcpy(bytes.GetPointer()+3, (const char *)number, len);
     }
   }
@@ -933,13 +933,13 @@ static PBoolean GetNumberIE(const PBYTEArray & bytes,
     return false;
 
   if (plan != NULL)
-    *plan = bytes[0]&15;
+    *plan = bytes[(PINDEX)0]&15;
 
   if (type != NULL)
-    *type = (bytes[0]>>4)&7;
+    *type = (bytes[(PINDEX)0]>>4)&7;
 
   PINDEX offset;
-  if ((bytes[0] & 0x80) != 0) {  // Octet 3a not provided, set defaults
+  if ((bytes[(PINDEX)0] & 0x80) != 0) {  // Octet 3a not provided, set defaults
     if (presentation != NULL)
       *presentation = defPresentation;
 
@@ -953,12 +953,12 @@ static PBoolean GetNumberIE(const PBYTEArray & bytes,
       return false;
 
     if (presentation != NULL)
-      *presentation = (bytes[1]>>5)&3;
+      *presentation = (bytes[(PINDEX)1]>>5)&3;
 
     if (screening != NULL)
-      *screening = bytes[1]&3;
+      *screening = bytes[(PINDEX)1]&3;
 
-    if ((bytes[1] & 0x80) != 0) { // Octet 3b not provided, set defaults
+    if ((bytes[(PINDEX)1] & 0x80) != 0) { // Octet 3b not provided, set defaults
       if (reason != NULL)
         *reason = defReason;
 
@@ -969,7 +969,7 @@ static PBoolean GetNumberIE(const PBYTEArray & bytes,
         return false;
 
       if (reason != NULL)
-        *reason = bytes[2]&15;
+        *reason = bytes[(PINDEX)2]&15;
 
       offset = 3;
     }
@@ -1117,29 +1117,29 @@ void Q931::SetChannelIdentification(unsigned interfaceType,
 
   if (interfaceType == 0) { // basic rate
     if (channelNumber == -1) { // any channel
-      bytes[0] = 0x80 | 0x04 | 0x03;
+      bytes[(PINDEX)0] = 0x80 | 0x04 | 0x03;
     }
     if (channelNumber == 0) { // D channel
-      bytes[0] = 0x80 | 0x08 | 0x04;
+      bytes[(PINDEX)0] = 0x80 | 0x08 | 0x04;
     }    
     if (channelNumber > 0) { // B channel
-      bytes[0] = (BYTE)(0x80 | 0x04 | ((preferredOrExclusive & 0x01) << 3) | (channelNumber & 0x03));
+      bytes[(PINDEX)0] = (BYTE)(0x80 | 0x04 | ((preferredOrExclusive & 0x01) << 3) | (channelNumber & 0x03));
     }
   }
 
   if (interfaceType == 1) { // primary rate
     if (channelNumber == -1) { // any channel
-      bytes[0] = 0x80 | 0x20 | 0x04 | 0x03;
+      bytes[(PINDEX)0] = 0x80 | 0x20 | 0x04 | 0x03;
     }
     if (channelNumber == 0) { // D channel
-      bytes[0] = 0x80 | 0x20 | 0x08 | 0x04;
+      bytes[(PINDEX)0] = 0x80 | 0x20 | 0x08 | 0x04;
     }    
     if (channelNumber > 0) { // B channel
       bytes.SetSize(3);
 
-      bytes[0] = (BYTE)(0x80 | 0x20 | 0x04 | ((preferredOrExclusive & 0x01) << 3) | 0x01);
-      bytes[1] = 0x80 | 0x03;
-      bytes[2] = (BYTE)(0x80 | channelNumber);
+      bytes[(PINDEX)0] = (BYTE)(0x80 | 0x20 | 0x04 | ((preferredOrExclusive & 0x01) << 3) | 0x01);
+      bytes[(PINDEX)1] = 0x80 | 0x03;
+      bytes[(PINDEX)2] = (BYTE)(0x80 | channelNumber);
     }
   }
 
@@ -1158,39 +1158,39 @@ PBoolean Q931::GetChannelIdentification(unsigned * interfaceType,
   if (bytes.GetSize() < 1)
     return false;
 
-  *interfaceType        = (bytes[0]>>5) & 0x01;
-  *preferredOrExclusive = (bytes[0]>>3) & 0x01;
+  *interfaceType        = (bytes[(PINDEX)0]>>5) & 0x01;
+  *preferredOrExclusive = (bytes[(PINDEX)0]>>3) & 0x01;
 
   if (*interfaceType == 0) {  // basic rate
-    if ( (bytes[0] & 0x04) == 0 ) {  // D Channel
+    if ( (bytes[(PINDEX)0] & 0x04) == 0 ) {  // D Channel
       *channelNumber = 0;
     }
     else {
-      if ( (bytes[0] & 0x03) == 0x03 ) {  // any channel
+      if ( (bytes[(PINDEX)0] & 0x03) == 0x03 ) {  // any channel
         *channelNumber = -1;
       }
       else { // B Channel
-        *channelNumber = (bytes[0] & 0x03);
+        *channelNumber = (bytes[(PINDEX)0] & 0x03);
       }
     }
   }
 
   if (*interfaceType == 1) {  // primary rate
-    if ( (bytes[0] & 0x04) == 0 ) {  // D Channel
+    if ( (bytes[(PINDEX)0] & 0x04) == 0 ) {  // D Channel
       *channelNumber = 0;
     }
     else {
-      if ( (bytes[0] & 0x03) == 0x03 ) {  // any channel
+      if ( (bytes[(PINDEX)0] & 0x03) == 0x03 ) {  // any channel
         *channelNumber = -1;
       }
       else { // B Channel
         if (bytes.GetSize() < 3)
           return false;
 
-        if (bytes[1] != 0x83)
+        if (bytes[(PINDEX)1] != 0x83)
           return false;
 
-        *channelNumber = bytes[2] & 0x7f;
+        *channelNumber = bytes[(PINDEX)2] & 0x7f;
       }
     }
   }

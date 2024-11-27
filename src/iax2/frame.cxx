@@ -405,7 +405,7 @@ IAX2MiniFrame::IAX2MiniFrame(const IAX2Frame & srcFrame)
   : IAX2Frame(srcFrame)
 {
   ZeroAllValues();
-  isAudio = (data[0] != 0) || (data[1] != 0);
+  isAudio = (data[(PINDEX)0] != 0) || (data[(PINDEX)1] != 0);
   isVideo = !isAudio;
   PTRACE(6, "Build this IAX2MiniFrame " << IdString());
 }
@@ -550,7 +550,7 @@ PBoolean IAX2FullFrame::operator*=(IAX2FullFrame & /*other*/)
 void IAX2FullFrame::MarkAsResent()
 {
   if (data.GetSize() > 2)
-    data[2] |= 0x80;
+    data[(PINDEX)2] |= 0x80;
 }
 
 void IAX2FullFrame::ZeroAllValues()
@@ -886,8 +886,8 @@ void IAX2FullFrame::PrintOn(ostream & strm) const
 
 void IAX2FullFrame::ModifyFrameHeaderSequenceNumbers(PINDEX inNo, PINDEX outNo)
 {
-  data[8] = (BYTE) (outNo & 0xff);
-  data[9] = (BYTE) (inNo & 0xff);
+  data[(PINDEX)8] = (BYTE) (outNo & 0xff);
+  data[(PINDEX)9] = (BYTE) (inNo & 0xff);
   GetSequenceInfo().SetInOutSeqNo(inNo, outNo);
 }
 
@@ -914,7 +914,7 @@ IAX2FullFrameDtmf::IAX2FullFrameDtmf(const IAX2FullFrame & srcFrame)
 IAX2FullFrameDtmf::IAX2FullFrameDtmf(IAX2Processor *iax2Processor, PString  subClassValue)
   : IAX2FullFrame(iax2Processor->GetEndPoint())
 {
-  SetSubClass(subClassValue.ToUpper()[0]);
+  SetSubClass(subClassValue.ToUpper()[(PINDEX)0]);
   InitialiseHeader(iax2Processor);
 }
 

@@ -1418,10 +1418,10 @@ PBoolean OpalTransportTCP::WritePDU(const PBYTEArray & pdu)
 
   // Send RFC1006 TPKT length
   PBYTEArray tpkt(packetLength);
-  tpkt[0] = 3;
-  tpkt[1] = 0;
-  tpkt[2] = (BYTE)(packetLength >> 8);
-  tpkt[3] = (BYTE)packetLength;
+  tpkt[(PINDEX)0] = 3;
+  tpkt[(PINDEX)1] = 0;
+  tpkt[(PINDEX)2] = (BYTE)(packetLength >> 8);
+  tpkt[(PINDEX)3] = (BYTE)packetLength;
   memcpy(tpkt.GetPointer()+4, (const BYTE *)pdu, pdu.GetSize());
 
   return Write((const BYTE *)tpkt, packetLength);

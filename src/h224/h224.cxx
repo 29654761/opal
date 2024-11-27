@@ -64,7 +64,7 @@ class OpalH224MediaDefinition : public OpalRTPAVPMediaDefinition
       if (!OpalRTPAVPMediaDefinition::MatchesSDP(sdpMediaType, sdpTransport, sdpLines, index))
         return false;
 
-      while (++index < sdpLines.GetSize() && sdpLines[index][0] != 'm') {
+      while (++index < sdpLines.GetSize() && sdpLines[index][(PINDEX)0] != 'm') {
         static PRegularExpression regex("a=rtpmap:[0-9]+ +h224/4800", PRegularExpression::IgnoreCase|PRegularExpression::Extended);
         if (sdpLines[index].FindRegEx(regex) != P_MAX_INDEX)
           return true;

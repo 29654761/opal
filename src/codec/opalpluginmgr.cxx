@@ -231,10 +231,10 @@ void OpalPluginMediaFormatInternal::SetOldStyleOption(OpalMediaFormatInternal & 
     }
   }
 
-  if (type[0] != '\0') {
+  if (type[(PINDEX)0] != '\0') {
     PStringArray tokens = PString(val+1).Tokenise(':', false);
     char ** array = tokens.ToCharArray();
-    switch (toupper(type[0])) {
+    switch (toupper(type[(PINDEX)0])) {
       case 'E':
         PTRACE(5, "Adding enum option '" << key << "' " << tokens.GetSize() << " options");
         format.AddOption(new OpalMediaOptionEnum(key, false, array, tokens.GetSize(), op, tokens.GetStringsIndex(val)), true);

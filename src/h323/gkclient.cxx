@@ -944,11 +944,11 @@ PTimeInterval H323Gatekeeper::InternalRegister()
   struct
   {
 	  BYTE prefix[2];
-	  PUInt16b endpointIdentifier[2];
+	  PUInt16b endpointIdentifier[(PINDEX)2];
 	  BYTE suffix[1];
   } msg1 = {
     { 0x40, 0x10 },
-    { m_endpointIdentifier[0], m_endpointIdentifier[1] },
+    { m_endpointIdentifier[(PINDEX)0], m_endpointIdentifier[(PINDEX)1] },
     { 0x00 }
   };
 #pragma pack()
@@ -956,7 +956,7 @@ PTimeInterval H323Gatekeeper::InternalRegister()
 
   PTRACE(3, "Starting Avaya IP Phone registration call");
   OpalConnection::StringOptions options;
-  options.Set(OPAL_OPT_CALLING_PARTY_NAME, m_aliases[0]);
+  options.Set(OPAL_OPT_CALLING_PARTY_NAME, m_aliases[(PINDEX)0]);
   options.SetInteger(OPAL_OPT_MEDIA_RX_TIMEOUT, 1000000000);
   options.SetInteger(OPAL_OPT_MEDIA_TX_TIMEOUT, 1000000000);
   m_endpoint.GetManager().SetUpCall("ivr:", "h323:register", NULL, OpalConnection::SynchronousSetUp, &options);
@@ -1563,8 +1563,8 @@ PBoolean H323Gatekeeper::DisengageRequest(H323Connection & connection, unsigned 
     drq.m_terminationCause.SetTag(H225_CallTerminationCause::e_releaseCompleteCauseIE);
     PASN_OctetString & rcReason = drq.m_terminationCause;
     rcReason.SetSize(2);
-    rcReason[0] = 0x80;
-    rcReason[1] = (BYTE)(0x80|cause);
+    rcReason[(PINDEX)0] = 0x80;
+    rcReason[(PINDEX)1] = (BYTE)(0x80|cause);
   }
 
   if (!gatekeeperIdentifier.IsEmpty()) {

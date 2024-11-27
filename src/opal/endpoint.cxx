@@ -878,7 +878,7 @@ bool OpalIsE164(const PString & number, bool strict)
 
   PINDEX offset;
 
-  if (strict || number[0] != '+')
+  if (strict || number[(PINDEX)0] != '+')
     offset = 0;
   else {
     if (number.GetLength() < 2)

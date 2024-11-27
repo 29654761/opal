@@ -343,7 +343,7 @@ OpalManager::OpalManager()
   PINDEX i;
   for (i = 0; i < devices.GetSize(); ++i) {
     PCaselessString dev = devices[i];
-    if (dev[0] != '*' && dev.NumCompare(P_FAKE_VIDEO_PREFIX) != EqualTo) {
+    if (dev[(PINDEX)0] != '*' && dev.NumCompare(P_FAKE_VIDEO_PREFIX) != EqualTo) {
       PTRACE(3, "Default video grabber set to \"" << dev << '"');
       m_videoInputDevice[OpalVideoFormat::eNoRole].deviceName = m_videoInputDevice[OpalVideoFormat::eMainRole].deviceName = dev;
       SetAutoStartTransmitVideo(true);
@@ -367,7 +367,7 @@ OpalManager::OpalManager()
   devices = PVideoOutputDevice::GetDriversDeviceNames("*"); // Get all devices on all drivers
   for (i = 0; i < devices.GetSize(); ++i) {
     PCaselessString dev = devices[i];
-    if (dev[0] != '*' && dev != P_NULL_VIDEO_DEVICE) {
+    if (dev[(PINDEX)0] != '*' && dev != P_NULL_VIDEO_DEVICE) {
       PTRACE(3, "Default video display set to \"" << dev << '"');
       for (OpalVideoFormat::ContentRole role = OpalVideoFormat::BeginContentRole; role < OpalVideoFormat::EndContentRole; ++role)
         m_videoOutputDevice[role].deviceName = dev;
@@ -1654,10 +1654,10 @@ bool OpalManager::RouteEntry::IsMatch(const PString & search) const
 
 PBoolean OpalManager::AddRouteEntry(const PString & spec)
 {
-  if (spec[0] == '#') // Comment
+  if (spec[(PINDEX)0] == '#') // Comment
     return false;
 
-  if (spec[0] == '@') { // Load from file
+  if (spec[(PINDEX)0] == '@') { // Load from file
     PTextFile file;
     if (!file.Open(spec.Mid(1), PFile::ReadOnly)) {
       PTRACE(1, "Could not open route file \"" << file.GetFilePath() << '"');

@@ -877,10 +877,10 @@ OpalLineInterfaceDevice::T35CountryCodes OpalLineInterfaceDevice::GetCountryCode
   if (str.IsEmpty())
     return UnknownCountry;
 
-  if (isdigit(str[0]))
+  if (isdigit(str[(PINDEX)0]))
     return (T35CountryCodes)str.AsUnsigned();
 
-  if (str[0] == '+') {
+  if (str[(PINDEX)0] == '+') {
     unsigned code = str.AsUnsigned();
     for (i = 0; i < PARRAYSIZE(CountryInfo); i++) {
       if (code == CountryInfo[i].m_dialCode)

@@ -1332,7 +1332,7 @@ OpalMediaFormatInternal::OpalMediaFormatInternal(const char * fullName,
   if (rtpPayloadType < RTP_DataFrame::DynamicBase || rtpPayloadType >= RTP_DataFrame::MaxPayloadType) {
     if (rtpPayloadType == RTP_DataFrame::MaxPayloadType && 
         rtpEncodingName.GetLength() > 0 &&
-        rtpEncodingName[0] == '+') {
+        rtpEncodingName[(PINDEX)0] == '+') {
       forceIsTransportable = true;
       rtpEncodingName.Delete(0, 1);
     }
@@ -2246,8 +2246,8 @@ void OpalMediaFormatList::Remove(const PStringArray & maskList)
 
   for (i = 0; i < maskList.GetSize(); i++) {
     PString mask = maskList[i];
-    if (mask[0] == '!') {
-      if (mask[1] == '@')
+    if (mask[(PINDEX)0] == '!') {
+      if (mask[(PINDEX)1] == '@')
         notTypes.push_back(mask.Mid(2));
       else
         notMasks.push_back(mask.Mid(1).Tokenise('*', true));
@@ -2393,13 +2393,13 @@ OpalMediaFormatList::const_iterator OpalMediaFormatList::FindFormat(const PStrin
   else
     ++iter;
 
-  bool negative = search[0] == '!';
+  bool negative = search[(PINDEX)0] == '!';
 
   PString adjustedSearch = search.Mid(negative ? 1 : 0);
   if (adjustedSearch.IsEmpty())
     return end();
 
-  if (adjustedSearch[0] == '@') {
+  if (adjustedSearch[(PINDEX)0] == '@') {
     OpalMediaType searchType = adjustedSearch.Mid(1);
     while (iter != end()) {
       if ((iter->GetMediaType() == searchType) != negative)
@@ -2427,7 +2427,7 @@ void OpalMediaFormatList::Reorder(const PStringArray & order)
   OpalMediaFormatBaseList::iterator orderedIter = begin();
 
   for (PINDEX i = 0; i < order.GetSize(); i++) {
-    if (order[i][0] == '@') {
+    if (order[i][(PINDEX)0] == '@') {
       OpalMediaType mediaType = order[i].Mid(1);
 
       OpalMediaFormatBaseList::iterator findIter = orderedIter;

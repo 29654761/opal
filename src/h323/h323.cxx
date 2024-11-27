@@ -385,7 +385,7 @@ PString H323Connection::GetAlertingType() const
 
 bool H323Connection::SetAlertingType(const PString & info)
 {
-  if (!isdigit(info[0]))
+  if (!isdigit(info[(PINDEX)0]))
     return false;
 
   unsigned value = info.AsUnsigned();
