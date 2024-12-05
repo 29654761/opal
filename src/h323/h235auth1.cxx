@@ -21,7 +21,7 @@
  *
  * The Initial Developer of the Original Code is Equivalence Pty. Ltd.
  *
- * Contributor(s): Fürbass Franz <franz.fuerbass@infonova.at>
+ * Contributor(s): Fï¿½rbass Franz <franz.fuerbass@infonova.at>
  *
  */
 
@@ -258,7 +258,7 @@ PBoolean H235AuthProcedure1::Finalise(PBYTEArray & rawPDU)
   }
   
   // Zero out the search pattern
-  memset(&rawPDU[foundat], 0, HASH_SIZE);
+  memset(&rawPDU[(PINDEX)foundat], 0, HASH_SIZE);
 
  /*******
   * 
@@ -273,7 +273,7 @@ PBoolean H235AuthProcedure1::Finalise(PBYTEArray & rawPDU)
   unsigned char secretkey[20];
   PSHA1Context::Process(password, secretkey);
   hmac_sha(secretkey, 20, rawPDU.GetPointer(), rawPDU.GetSize(), key, HASH_SIZE);
-  memcpy(&rawPDU[foundat], key, HASH_SIZE);
+  memcpy(&rawPDU[(PINDEX)foundat], key, HASH_SIZE);
   
   PTRACE(4, "H235RAS\tH235AuthProcedure1 hashing completed: \"" << password << '"');
   return true;

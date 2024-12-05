@@ -2582,10 +2582,10 @@ H245_UnicastAddress_iPAddress::H245_UnicastAddress_iPAddress(unsigned tag, PASN_
 void H245_UnicastAddress_iPAddress::PrintOn(ostream & strm) const
 {
   strm << "{ "
-       << (unsigned)m_network[0] << '.'
-       << (unsigned)m_network[1] << '.'
-       << (unsigned)m_network[2] << '.'
-       << (unsigned)m_network[3] << ':'
+       << (unsigned)m_network[(PINDEX)0] << '.'
+       << (unsigned)m_network[(PINDEX)1] << '.'
+       << (unsigned)m_network[(PINDEX)2] << '.'
+       << (unsigned)m_network[(PINDEX)3] << ':'
        << m_tsapIdentifier
        << " }";
 }

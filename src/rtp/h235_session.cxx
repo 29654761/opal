@@ -325,7 +325,7 @@ bool H2356_Session::Context::PreProcess(RTP_DataFrame & frame)
   BYTE * ptr = m_iv.GetPointer();
   while (len > 0) {
     PINDEX copy = std::min(len, (PINDEX)6);
-    memcpy(ptr, &frame[2], copy); // Copy the sequence number and time stamp bytes
+    memcpy(ptr, &frame[(PINDEX)2], copy); // Copy the sequence number and time stamp bytes
     len -= copy;
     ptr += copy;
   }

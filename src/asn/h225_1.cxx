@@ -7849,10 +7849,10 @@ H225_TransportAddress_ipAddress::H225_TransportAddress_ipAddress(unsigned tag, P
 void H225_TransportAddress_ipAddress::PrintOn(ostream & strm) const
 {
   strm << "{ "
-       << (unsigned)m_ip[0] << '.'
-       << (unsigned)m_ip[1] << '.'
-       << (unsigned)m_ip[2] << '.'
-       << (unsigned)m_ip[3] << ':'
+       << (unsigned)m_ip[(PINDEX)0] << '.'
+       << (unsigned)m_ip[(PINDEX)1] << '.'
+       << (unsigned)m_ip[(PINDEX)2] << '.'
+       << (unsigned)m_ip[(PINDEX)3] << ':'
        << m_port
        << " }";
 }

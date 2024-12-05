@@ -27,7 +27,7 @@
 #define _OPAL_REVISION_H
 
 #define SVN_REVISION 0
-#define GIT_COMMIT    "b1b212396c692dfc5e9cd35ff04d86dd01d8f7ee"
+#define GIT_COMMIT    "0e406bab50fc48fae86a0f5677b3298f76fb1b9c"
 
 #endif  // _OPAL_REVISION_H
 

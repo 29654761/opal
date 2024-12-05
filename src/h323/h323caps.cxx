@@ -4004,8 +4004,8 @@ void H245_AudioCapability::PrintOn(ostream & strm) const
             PINDEX i;
             if (data.GetSize() >= 21) {
               for (i = 0; msNonStandardCodec[i].name != NULL; i++) {
-                if ((data[20] == msNonStandardCodec[i].sig[0]) &&
-                    (data[21] == msNonStandardCodec[i].sig[1])) {
+                if ((data[(PINDEX)20] == msNonStandardCodec[i].sig[0]) &&
+                    (data[(PINDEX)21] == msNonStandardCodec[i].sig[1])) {
                   name = msNonStandardCodec[i].name;
                   break;
                 }
