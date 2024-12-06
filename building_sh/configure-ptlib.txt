@@ -1,0 +1,331 @@
+Usage: ./configure [OPTION]... [VAR=VALUE]...
+
+To assign environment variables (e.g., CC, CFLAGS...), specify them as
+VAR=VALUE.  See below for descriptions of some of the useful variables.
+
+Defaults for the options are specified in brackets.
+
+Configuration:
+  -h, --help              display this help and exit
+      --help=short        display options specific to this package
+      --help=recursive    display the short help of all the included packages
+  -V, --version           display version information and exit
+  -q, --quiet, --silent   do not print `checking ...' messages
+      --cache-file=FILE   cache test results in FILE [disabled]
+  -C, --config-cache      alias for `--cache-file=config.cache'
+  -n, --no-create         do not create output files
+      --srcdir=DIR        find the sources in DIR [configure dir or `..']
+
+Installation directories:
+  --prefix=PREFIX         install architecture-independent files in PREFIX
+                          [/usr/local]
+  --exec-prefix=EPREFIX   install architecture-dependent files in EPREFIX
+                          [PREFIX]
+
+By default, `make install' will install all the files in
+`/usr/local/bin', `/usr/local/lib' etc.  You can specify
+an installation prefix other than `/usr/local' using `--prefix',
+for instance `--prefix=$HOME'.
+
+For better control, use the options below.
+
+Fine tuning of the installation directories:
+  --bindir=DIR            user executables [EPREFIX/bin]
+  --sbindir=DIR           system admin executables [EPREFIX/sbin]
+  --libexecdir=DIR        program executables [EPREFIX/libexec]
+  --sysconfdir=DIR        read-only single-machine data [PREFIX/etc]
+  --sharedstatedir=DIR    modifiable architecture-independent data [PREFIX/com]
+  --localstatedir=DIR     modifiable single-machine data [PREFIX/var]
+  --runstatedir=DIR       modifiable per-process data [LOCALSTATEDIR/run]
+  --libdir=DIR            object code libraries [EPREFIX/lib]
+  --includedir=DIR        C header files [PREFIX/include]
+  --oldincludedir=DIR     C header files for non-gcc [/usr/include]
+  --datarootdir=DIR       read-only arch.-independent data root [PREFIX/share]
+  --datadir=DIR           read-only architecture-independent data [DATAROOTDIR]
+  --infodir=DIR           info documentation [DATAROOTDIR/info]
+  --localedir=DIR         locale-dependent data [DATAROOTDIR/locale]
+  --mandir=DIR            man documentation [DATAROOTDIR/man]
+  --docdir=DIR            documentation root [DATAROOTDIR/doc/ptlib]
+  --htmldir=DIR           html documentation [DOCDIR]
+  --dvidir=DIR            dvi documentation [DOCDIR]
+  --pdfdir=DIR            pdf documentation [DOCDIR]
+  --psdir=DIR             ps documentation [DOCDIR]
+
+System types:
+  --build=BUILD     configure for building on BUILD [guessed]
+  --host=HOST       cross-compile to build programs to run on HOST [BUILD]
+  --target=TARGET   configure for building compilers for TARGET [HOST]
+
+Optional Features:
+  --disable-option-checking  ignore unrecognized --enable/--with options
+  --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
+  --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --enable-ios=iphone|simulator
+                          enable iOS support
+  --enable-cpp11          Enable C++11 build
+  --enable-cpp14          Enable C++14 build
+  --enable-cpp17          Enable C++17 build
+  --enable-force32        Force 32-bit x86 build
+  --enable-minsize        Minimise the size of the lib by disabling least used
+                          options
+  --disable-deprecated    Stop compiler warning about deprecated functions
+  --enable-exceptions     enable C++ exceptions
+  --enable-pindex_is_size_t
+                          enable PINDEX set to
+                          size_t
+  --disable-pthread_kill  Disable use of pthread_kill for checking on thread
+                          terminated
+  --disable-ipv6          disable IPV6 support
+  --disable-backtrace     disable stack back trace support
+  --disable-tracing       Remove PTRACE and all trace logging
+  --disable-trace-instance
+                          Disable object instance in trace logging
+  --enable-internalregex  Force internal regex library
+  --disable-resolver      disable DNS resolver support
+  --disable-pcap          disable PCAP support
+  --disable-imagemagick   disable
+                          ImageMagick v6 support
+  --disable-imagemagick   disable
+                          ImageMagick v7 support
+  --disable-libjpeg       disable libJPEG
+                          support
+  --disable-mlib          disable SUN
+                          mlib support
+  --disable-sasl          disable SASL support
+  --disable-openldap      disable Open
+                          LDAP support
+  --disable-openssl       disable OpenSSL
+                          support
+  --disable-expat         disable expat
+                          XML support
+  --disable-lua           disable Lua
+                          script support
+  --disable-v8            disable V8 Javascript script
+                          support
+  --disable-tts           disable Text-To-Speech server
+                          support
+  --disable-configfile    disable
+                          config file support
+  --disable-url           disable URL support
+  --disable-http          disable HTTP
+                          support
+  --disable-httpforms     disable HTTP
+                          forms support
+  --disable-httpsvc       disable
+                          HTTP server support
+  --disable-ssdp          disable SSDP
+                          support
+  --disable-cypher        disable Cypher
+                          support
+  --disable-vartype       disable VarType
+                          support
+  --disable-guid          disable GUID
+                          support
+  --disable-scripts       disable Scripts
+                          support
+  --disable-spooldir      disable
+                          Spool directory support
+  --disable-syslog        disable
+                          System log support
+  --disable-chanutils     disable Channel utilities support
+  --disable-timers        disable Timers
+                          support
+  --disable-networking    disable Network
+                          support
+  --disable-vcard         disable VCard
+                          support
+  --disable-jabber        disable Jabber
+                          support
+  --disable-vxml          disable VXML
+                          support
+  --disable-vxmlvideo     disable
+                          VXML (video) support
+  --disable-xmlrpc        disable XMLRPC
+                          support
+  --disable-soap          disable SOAP
+                          support
+  --disable-asn           disable ASN decoding/encoding
+                          support
+  --disable-nat           disable
+                          NAT traversal support
+  --disable-stun          disable STUN
+                          support
+  --disable-turn          disable TURN
+                          support
+  --disable-stunsrvr      disable
+                          STUN server support
+  --disable-pipechan      disable sub-process
+                          (PPipeChannel) support
+  --disable-dtmf          disable
+                          DTMF protocol support
+  --disable-socks         disable
+                          SOCKS protocol support
+  --disable-ftp           disable
+                          FTP protocol support
+  --disable-snmp          disable
+                          SNMP protocol support
+  --disable-telnet        disable
+                          TELNET protocol support
+  --disable-cli           disable command line interpreter
+                          support
+  --disable-remconn       disable remote connection support
+  --disable-serial        disable
+                          serial port support
+  --disable-pop3smtp      disable
+                          POP3/SMTP support
+  --disable-audio         disable audio
+                          support
+  --disable-wavfile       disable WAVFILE
+                          support
+  --disable-video         disable
+                          video device support
+  --disable-vidfile       disable
+                          video file support
+  --disable-mediafile     disable
+                          Media file support
+  --disable-appshare      disable application sharing
+                          support
+  --disable-shmvideo      disable shared memory video
+                          devices
+  --disable-curses        disable disable Curses (text mode
+                          windows) support
+  --disable-sdl           disable disable libSDL2 (video
+                          display) support
+  --disable-gstreamer     disable
+                          GStreamer 0.10 support
+  --disable-gstreamer     disable
+                          GStreamer 1.0 support
+  --disable-odbc          disable
+                          ODBC database support
+  --disable-odbc          disable unixODBC database support
+  --enable-vfw            enable video for windows
+                          capture
+  --disable-pluginmgr     disable
+                          Plugin Manager support
+  --disable-plugins       disable Plugin
+                          support
+  --disable-alsa          disable ALSA audio support
+  --disable-esd           disable ESD audio support
+  --disable-oss           disable OSS audio support
+  --enable-pulse          enable Pulse audio support
+  --disable-sunaudio      disable Sun audio support
+  --disable-shmaudio      disable shm audio support
+  --disable-portaudio     disable
+                          PortAudio library
+  --disable-v4l           disable V4L video support
+  --disable-v4l2          disable V4L2 video support
+  --disable-bsdvideo      disable BSD video support
+  --disable-avc           disable IEEE1394/AVC video support
+  --disable-dc            disable IEEE1394/DC video support
+  --enable-sanitize-address
+                          Enable GCC/clang Address Sanitizer
+  --enable-sanitize-thread
+                          Enable GCC/clang Thread Sanitizer
+  --enable-memcheck       enable leak testing code (off by default)
+  --enable-samples        enable samples build
+
+Optional Packages:
+  --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
+  --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --with-profiling        Enable profiling: gprof, eccam, raw or manual
+  --with-allocator=std,mt,bitmap
+                          Set the allocator type
+  --with-libjpeg-dir=<dir>
+                          location for libJPEG support
+  --with-openldap-dir=<dir>
+                          location for Open LDAP support
+  --with-expat-dir=<dir>  location for expat XML support
+  --with-v8-dir=<dir>     location for V8 Javascript script support
+  --with-curses-dir=<dir> location for disable Curses (text mode windows)
+                          support
+  --with-odbc-dir=<dir>   location for ODBC database support
+  --with-odbc-dir=<dir>   location for unixODBC database support
+  --with-directx-includedir=DIR
+                          Location of DirectX include files
+  --with-plugin-installdir=DIR
+                          Location where plugins are installed, starting at
+                          the lib dir
+  --with-portaudio-dir=<dir>
+                          location for PortAudio library
+
+Some influential environment variables:
+  PKG_CONFIG  path to pkg-config utility
+  PKG_CONFIG_PATH
+              directories to add to pkg-config's search path
+  PKG_CONFIG_LIBDIR
+              path overriding pkg-config's built-in search path
+  CC          C compiler command
+  CFLAGS      C compiler flags
+  LDFLAGS     linker flags, e.g. -L<lib dir> if you have libraries in a
+              nonstandard directory <lib dir>
+  LIBS        libraries to pass to the linker, e.g. -l<library>
+  CPPFLAGS    (Objective) C/C++ preprocessor flags, e.g. -I<include dir> if
+              you have headers in a nonstandard directory <include dir>
+  CXX         C++ compiler command
+  CXXFLAGS    C++ compiler flags
+  CPP         C preprocessor
+  LIBAVUTIL_CFLAGS
+              C compiler flags for LIBAVUTIL, overriding pkg-config
+  LIBAVUTIL_LIBS
+              linker flags for LIBAVUTIL, overriding pkg-config
+  LIBSWRESAMPLE_CFLAGS
+              C compiler flags for LIBSWRESAMPLE, overriding pkg-config
+  LIBSWRESAMPLE_LIBS
+              linker flags for LIBSWRESAMPLE, overriding pkg-config
+  LIBSWSCALE_CFLAGS
+              C compiler flags for LIBSWSCALE, overriding pkg-config
+  LIBSWSCALE_LIBS
+              linker flags for LIBSWSCALE, overriding pkg-config
+  LIBAVCODEC_CFLAGS
+              C compiler flags for LIBAVCODEC, overriding pkg-config
+  LIBAVCODEC_LIBS
+              linker flags for LIBAVCODEC, overriding pkg-config
+  LIBAVFORMAT_CFLAGS
+              C compiler flags for LIBAVFORMAT, overriding pkg-config
+  LIBAVFORMAT_LIBS
+              linker flags for LIBAVFORMAT, overriding pkg-config
+  IMAGEMAGICK_CFLAGS
+              C compiler flags for IMAGEMAGICK, overriding pkg-config
+  IMAGEMAGICK_LIBS
+              linker flags for IMAGEMAGICK, overriding pkg-config
+  LIBJPEG_CFLAGS
+              C compiler flags for LIBJPEG, overriding pkg-config
+  LIBJPEG_LIBS
+              linker flags for LIBJPEG, overriding pkg-config
+  OPENLDAP_CFLAGS
+              C compiler flags for OPENLDAP, overriding pkg-config
+  OPENLDAP_LIBS
+              linker flags for OPENLDAP, overriding pkg-config
+  OPENSSL_CFLAGS
+              C compiler flags for OPENSSL, overriding pkg-config
+  OPENSSL_LIBS
+              linker flags for OPENSSL, overriding pkg-config
+  EXPAT_CFLAGS
+              C compiler flags for EXPAT, overriding pkg-config
+  EXPAT_LIBS  linker flags for EXPAT, overriding pkg-config
+  LUA_CFLAGS  C compiler flags for LUA, overriding pkg-config
+  LUA_LIBS    linker flags for LUA, overriding pkg-config
+  V8_CFLAGS   C compiler flags for V8, overriding pkg-config
+  V8_LIBS     linker flags for V8, overriding pkg-config
+  CURSES_CFLAGS
+              C compiler flags for CURSES, overriding pkg-config
+  CURSES_LIBS linker flags for CURSES, overriding pkg-config
+  SDL_CFLAGS  C compiler flags for SDL, overriding pkg-config
+  SDL_LIBS    linker flags for SDL, overriding pkg-config
+  GSTREAMER_CFLAGS
+              C compiler flags for GSTREAMER, overriding pkg-config
+  GSTREAMER_LIBS
+              linker flags for GSTREAMER, overriding pkg-config
+  ODBC_CFLAGS C compiler flags for ODBC, overriding pkg-config
+  ODBC_LIBS   linker flags for ODBC, overriding pkg-config
+  ESD_CFLAGS  C compiler flags for ESD, overriding pkg-config
+  ESD_LIBS    linker flags for ESD, overriding pkg-config
+  PORTAUDIO_CFLAGS
+              C compiler flags for PORTAUDIO, overriding pkg-config
+  PORTAUDIO_LIBS
+              linker flags for PORTAUDIO, overriding pkg-config
+
+Use these variables to override the choices made by `configure' or to help
+it to find libraries and programs with nonstandard names/locations.
+
+Report bugs to the package provider.
